@@ -57,3 +57,6 @@
   width: 100%; min-height: 220px; resize: vertical;
   font-family: "SF Mono", Consolas, monospace; font-size: 11px; line-height: 1.5;
 }
+
+/* HP remaining (red) — same slot as Overkill on boss cards */
+.hp-remaining { color: var(--red); font-weight: 700; font-variant-numeric: tabular-nums; }
