@@ -356,11 +356,9 @@ function autoAssignFromTicks() {
     for (const c of h.chars) u.nikkes.add(c);
   };
 
-  let prevCleared = true;
   let skipped = 0;
   for (let li = 0; li < 3; li++) {
     const lvl = LEVELS[li];
-    if (!prevCleared) { log(`${lvl} skipped — previous level not fully cleared.`, 'log-err'); break; }
     for (let bi = 0; bi < state.tables.length; bi++) {
       const boss = state.tables[bi];
       const maxHp = BOSS_HP_MATRIX[lvl][bi];
@@ -376,12 +374,18 @@ function autoAssignFromTicks() {
         remaining -= chosen.dmg;
       }
     }
-    prevCleared = Logic.levelCleared(assignments, lvl, state.tables);
-    log(`${lvl}: ${prevCleared ? 'ALL BOSSES CLEARED ✓' : 'NOT fully cleared ✗'}`, prevCleared ? 'log-ok' : 'log-err');
+    // ticks are explicit choices: warn if a level isn't fully cleared, but still
+    // process the next level's ticks (do not gate).
+    const cleared = Logic.levelCleared(assignments, lvl, state.tables);
+    log(`${lvl}: ${cleared ? 'ALL BOSSES CLEARED ✓' : 'NOT fully cleared ✗'}`, cleared ? 'log-ok' : 'log-err');
   }
   skipped = tickedHits.filter((h) => !assignedIds.has(h.id)).length;
   state.assignments = assignments;
-  log(`Auto Assign: ${assignedIds.size} hits placed from sheet ticks` + (skipped ? ` (${skipped} ticked hits skipped by the 3-hit / one-team rules)` : '') + '.', 'log-ok');
+  const perLvl = LEVELS.slice(0, 3).map((l) => {
+    const n = Object.values(assignments[l]).reduce((s, arr) => s + (arr ? arr.length : 0), 0);
+    return `${l}: ${n}`;
+  }).join(', ');
+  log(`Auto Assign: ${assignedIds.size} hits placed from sheet ticks (${perLvl})` + (skipped ? ` — ${skipped} ticked hits skipped by the 3-hit / one-team rules` : '') + '.', 'log-ok');
   renderCenter();
   renderRight();
 }
