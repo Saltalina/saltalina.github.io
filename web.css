@@ -410,7 +410,11 @@ html, body {
 /* hide export-only chrome when rendering cards for Discord.
    Planner cards: the foot is just the send button — hide the whole foot.
    Combat-log cards: the foot also carries the damage — hide only the button. */
-.export-mode .boss-card .boss-card-foot { display: none !important; }
+/* export-mode: hide Send-to-Discord buttons in the render.
+   .export-mode itself hides buttons anywhere inside it (single-card sends put the
+   class on the card; level sends put it on a wrapper). */
+.export-mode .send-btn { display: none !important; }
+.export-mode .boss-card-foot { display: none !important; }
 .export-mode .hit-card-foot button { display: none !important; }
 
 /* confirmed hits inside Discord cards */
@@ -600,3 +604,6 @@ html, body {
   width: 100%; min-height: 220px; resize: vertical;
   font-family: "SF Mono", Consolas, monospace; font-size: 11px; line-height: 1.5;
 }
+
+/* HP remaining (red) — same slot as Overkill on boss cards */
+.hp-remaining { color: var(--red); font-weight: 700; font-variant-numeric: tabular-nums; }

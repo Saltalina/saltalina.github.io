@@ -5,7 +5,7 @@
 'use strict';
 
 const { LEVELS, BOSS_HP_MATRIX, playerKey,
-        emptyAssignments, playerUsage, hitState } = Logic;
+        emptyAssignments, playerUsage, hitState, optimalKillIds } = Logic;
 
 // ---------- state ----------
 const state = {
@@ -94,8 +94,10 @@ function makeHit(boss, data) {
   for (let i = 1; i <= 5; i++) { const c = (data[`Char ${i}`] || '').trim(); if (c) chars.push(c); }
   const player = (data.Name || 'Unknown').trim();
   const dmg = parseInt(String(data.Dmg || '0').replace(/[, ]/g, ''), 10) || 0;
+  const ticked = (v) => /^(true|x|✓|yes|1)$/i.test(String(v || '').trim());
+  const ticks = [ticked(data.Lv1), ticked(data.Lv2), ticked(data.Lv3)];
   const id = `${boss}::${player}::${dmg}::${chars.join('|')}`;
-  return { id, boss, player, chars, dmg, data };
+  return { id, boss, player, chars, dmg, ticks, data };
 }
 
 // ---------- schedule + linking ----------
@@ -330,6 +332,60 @@ function setAssignment(hitId, lvl) {
   renderRight();
 }
 
+// ---------- auto assign (driven by Lv1/Lv2/Lv3 checkboxes in the sheet) ----------
+function autoAssignFromTicks() {
+  const assignments = emptyAssignments();
+  const usage = {}; // playerKey -> {count, nikkes:Set}
+  const assignedIds = new Set();
+  const tickedHits = state.hits.filter((h) => h.ticks.some(Boolean));
+  if (!tickedHits.length) {
+    log('Auto Assign: no hits have Lv1/Lv2/Lv3 ticked in the sheet.', 'log-err');
+    return;
+  }
+  const eligible = (h) => {
+    if (assignedIds.has(h.id)) return false;
+    const u = usage[playerKey(h.player)];
+    if (u && (u.count >= Logic.MAX_HITS_PER_PLAYER || h.chars.some((c) => u.nikkes.has(c)))) return false;
+    return true;
+  };
+  const assign = (lvl, boss, h) => {
+    (assignments[lvl][boss] ||= []).push(h);
+    assignedIds.add(h.id);
+    const u = (usage[playerKey(h.player)] ||= { count: 0, nikkes: new Set() });
+    u.count += 1;
+    for (const c of h.chars) u.nikkes.add(c);
+  };
+
+  let prevCleared = true;
+  let skipped = 0;
+  for (let li = 0; li < 3; li++) {
+    const lvl = LEVELS[li];
+    if (!prevCleared) { log(`${lvl} skipped — previous level not fully cleared.`, 'log-err'); break; }
+    for (let bi = 0; bi < state.tables.length; bi++) {
+      const boss = state.tables[bi];
+      const maxHp = BOSS_HP_MATRIX[lvl][bi];
+      let remaining = maxHp;
+      while (remaining > 0) {
+        const valid = state.hits.filter((h) => h.boss === boss && h.ticks[li] && h.dmg > 0 && eligible(h));
+        if (!valid.length) break;
+        const kills = valid.filter((h) => h.dmg >= remaining);
+        const chosen = kills.length
+          ? kills.reduce((a, b) => (b.dmg < a.dmg ? b : a))   // least-overkill kill
+          : valid.reduce((a, b) => (b.dmg > a.dmg ? b : a));  // biggest chunk
+        assign(lvl, boss, chosen);
+        remaining -= chosen.dmg;
+      }
+    }
+    prevCleared = Logic.levelCleared(assignments, lvl, state.tables);
+    log(`${lvl}: ${prevCleared ? 'ALL BOSSES CLEARED ✓' : 'NOT fully cleared ✗'}`, prevCleared ? 'log-ok' : 'log-err');
+  }
+  skipped = tickedHits.filter((h) => !assignedIds.has(h.id)).length;
+  state.assignments = assignments;
+  log(`Auto Assign: ${assignedIds.size} hits placed from sheet ticks` + (skipped ? ` (${skipped} ticked hits skipped by the 3-hit / one-team rules)` : '') + '.', 'log-ok');
+  renderCenter();
+  renderRight();
+}
+
 // ---------- center pane ----------
 function renderBossTabs() {
   const wrap = $('#boss-tabs');
@@ -358,6 +414,7 @@ function renderCenter() {
   if (!hasData) { list.innerHTML = ''; return; }
 
   const used = playerUsage(state.assignments);
+  const optimalIds = optimalKillIds(state.assignments, state.hits, state.tables);
   const terms = state.search.toLowerCase().split(',').map((t) => t.trim()).filter(Boolean);
 
   let hits = state.hits.filter((h) => h.boss === state.activeBoss);
@@ -376,12 +433,20 @@ function renderCenter() {
     const row = document.createElement('div');
     row.className = 'hit-row' +
       (st.kind === 'assigned' ? ' assigned' : '') +
-      (st.kind === 'conflicted' ? ' conflicted' : '');
+      (st.kind === 'conflicted' ? ' conflicted' : '') +
+      (st.kind === 'free' && optimalIds.has(h.id) ? ' optimal' : '');
 
     const name = document.createElement('div');
     name.className = 'hit-name';
     name.textContent = h.player;
     name.title = h.player;
+    if (st.kind === 'free' && optimalIds.has(h.id)) {
+      const badge = document.createElement('span');
+      badge.className = 'opt-badge';
+      badge.textContent = 'OPTIMAL';
+      badge.title = 'Best-fit kill: clears this boss with the least overkill';
+      name.appendChild(badge);
+    }
     row.appendChild(name);
 
     const icons = document.createElement('div');
@@ -449,7 +514,8 @@ function bossCardEl(boss, hits, lvl) {
   let metaRight;
   if (maxHp === 0) metaRight = `<span class="pct" style="color:var(--cyan)">ENDLESS</span>`;
   else if (total > maxHp) metaRight = `<span class="overkill">Overkill ${fmt(total - maxHp)}</span>`;
-  else metaRight = `<span class="pct">${pct}%</span>`;
+  else if (total < maxHp) metaRight = `<span class="hp-remaining">HP Remaining ${fmt(maxHp - total)}</span>`;
+  else metaRight = `<span class="pct">100%</span>`;
   prog.innerHTML = `
     <div class="progress-track"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>
     <div class="progress-meta">
@@ -480,7 +546,7 @@ function bossCardEl(boss, hits, lvl) {
   const foot = document.createElement('div');
   foot.className = 'boss-card-foot';
   const send = document.createElement('button');
-  send.className = 'mac-btn mac-btn-small';
+  send.className = 'mac-btn mac-btn-small send-btn';
   send.innerHTML = `<svg width="12" height="12" viewBox="0 0 24 24" fill="currentColor"><path d="M2 21 23 12 2 3v7l15 2-15 2v7z"/></svg> Send to Discord`;
   send.onclick = () => sendCardToDiscord(card, `${boss}_${lvl.replace(' ', '')}`);
   foot.appendChild(send);
@@ -747,6 +813,7 @@ function boot() {
 
   $('#btn-load').onclick = () => fetchData(false);
   $('#btn-tables').onclick = () => openTablesModal();
+  $('#btn-auto').onclick = autoAssignFromTicks;
   $('#btn-clear').onclick = () => {
     state.assignments = emptyAssignments();
     for (const l of LEVELS) for (const t of state.tables) state.assignments[l][t] = [];
