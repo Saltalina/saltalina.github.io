@@ -518,7 +518,7 @@ function bossCardEl(boss, hits, lvl) {
   let metaRight;
   if (maxHp === 0) metaRight = `<span class="pct" style="color:var(--cyan)">ENDLESS</span>`;
   else if (total > maxHp) metaRight = `<span class="overkill">Overkill ${fmt(total - maxHp)}</span>`;
-  else if (total < maxHp) metaRight = `<span class="hp-remaining">HP Remaining ${fmt(maxHp - total)}</span>`;
+  else if (total < maxHp) metaRight = `<span class="hp-remaining">HP Lack ${fmt(maxHp - total)}</span>`;
   else metaRight = `<span class="pct">100%</span>`;
   prog.innerHTML = `
     <div class="progress-track"><div class="progress-fill ${fillCls}" style="width:${pct}%"></div></div>
