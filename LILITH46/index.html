@@ -1,0 +1,39 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Union Overview</title>
+<link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+<header class="topbar">
+  <div class="brand">
+    <span class="brand-mark">◈</span>
+    <span class="brand-name">Union<span>Data</span>View</span>
+  </div>
+  <nav class="tabs">
+    <button class="tab active" id="tabOverview">Union Overview</button>
+  </nav>
+  <div class="top-controls"><span id="serverTag" class="server-tag"></span></div>
+</header>
+
+<main class="view">
+  <section id="unionCard" class="union-card"></section>
+
+  <div class="section-title">Members <span class="count" id="memberCount"></span></div>
+  <div class="table-wrap">
+    <table id="memberTable">
+      <thead><tr id="headRow"></tr></thead>
+      <tbody id="memberBody"></tbody>
+    </table>
+  </div>
+  <p class="footnote" id="footnote"></p>
+</main>
+
+<div id="tooltip" class="tooltip hidden"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
