@@ -82,9 +82,33 @@
     '<th class="num">' + prevN + ' DMG</th><th class="num">' + curN + ' DMG</th><th class="num">Change</th><th>Notes</th>';
 
   const flagHtml = (f) => {
-    if (f === 'noattempt') return ' <span class="cell-flag">Didn\'t Attempt</span>';
-    if (f === 'new') return ' <span class="cell-flag newflag">New Member</span>';
+    if (f === 'noattempt') return '<span class="cell-flag solid">Didn\'t Attempt</span>';
+    if (f === 'new') return '<span class="cell-flag solid newflag">New Member</span>';
     return '';
+  };
+  const ELEMENT_COLORS = {
+    'Z.E.U.S.': 'el-purple', 'D.M.T.R.': 'el-yellow', 'A.N.M.I.': 'el-green',
+    'P.S.I.D.': 'el-lightblue', 'H.S.T.A.': 'el-red',
+  };
+  const elementCls = (boss) => {
+    for (const tok in ELEMENT_COLORS) if (boss.includes(tok)) return ELEMENT_COLORS[tok];
+    return 'el-purple';
+  };
+  const finalHitHtml = (f) =>
+    '<span class="cell-flag fh hollow ' + elementCls(f.b) + '" title="Final hit">⚔ ' +
+    esc(f.b) + (f.l != null ? ' Lv ' + f.l : '') + '</span>';
+  const normNote = (s) => (s || '').toLowerCase().replace(/['']/g, '').replace(/\s+/g, ' ').trim();
+  const notesHtml = (m) => {
+    const parts = [];
+    const flags = [];
+    if (m.prevFlag === 'new') { parts.push(flagHtml('new')); flags.push('new member'); }
+    if (m.curFlag === 'noattempt' || m.prevFlag === 'noattempt') { parts.push(flagHtml('noattempt')); flags.push('didnt attempt'); }
+    for (const f of (m.finalHits || [])) parts.push(finalHitHtml(f));
+    // skip raw notes that merely repeat a flag pill (e.g. "Didnt Attempt")
+    if (m.notes && !flags.includes(normNote(m.notes))) {
+      parts.push('<span class="note-text">' + esc(m.notes) + '</span>');
+    }
+    return parts.join(' ');
   };
 
   const tbody = $('#memberBody');
@@ -112,17 +136,19 @@
     tr.appendChild(mk('', m.url
       ? '<a class="bl-link" href="' + esc(m.url) + '" target="_blank" rel="noopener">blablalink ↗</a>' : '—', 1));
 
-    tr.appendChild(mk('num', String(m.prevLv), 2));
+    tr.appendChild(mk('num', m.prevFlag === 'new' ? '<span class="muted">—</span>' : String(m.prevLv), 2));
     tr.appendChild(mk('num', String(m.curLv), 3));
-    tr.appendChild(mk('num ' + (m.growth > 0 ? 'delta-up' : m.growth < 0 ? 'delta-down' : 'muted'),
-      (m.growth > 0 ? '+' : '') + m.growth, 4));
+    tr.appendChild(mk('num ' + (m.prevFlag === 'new' ? 'muted' : m.growth > 0 ? 'delta-up' : m.growth < 0 ? 'delta-down' : 'muted'),
+      m.prevFlag === 'new' ? '—' : (m.growth > 0 ? '+' : '') + m.growth, 4));
 
-    const tdP = mk('num dmg-cell', fmtDmg(m.prevDmg) + flagHtml(m.prevFlag), 5);
+    const tdP = mk('num dmg-cell',
+      (m.prevFlag ? '<span class="muted">—</span>' : fmtDmg(m.prevDmg)), 5);
     tdP.dataset.season = 'prev';
     tdP.dataset.nick = m.nick;
     tr.appendChild(tdP);
 
-    const tdC = mk('num dmg-cell', fmtDmg(m.curDmg) + flagHtml(m.curFlag), 6);
+    const tdC = mk('num dmg-cell',
+      (m.curFlag === 'noattempt' ? '<span class="muted">—</span>' : fmtDmg(m.curDmg)), 6);
     tdC.dataset.season = 'cur';
     tdC.dataset.nick = m.nick;
     tr.appendChild(tdC);
@@ -130,7 +156,7 @@
     tr.appendChild(mk('num ' + (m.dmgChg > 0 ? 'delta-up' : m.dmgChg < 0 ? 'delta-down' : 'muted'),
       (m.dmgChg > 0 ? '+' : '') + fmtDmg(m.dmgChg), 7));
 
-    tr.appendChild(mk('muted', esc(m.notes || ''), 8));
+    tr.appendChild(mk('notes-cell', notesHtml(m), 8));
     tbody.appendChild(tr);
   }
 
@@ -151,7 +177,7 @@
     }).join('');
     const dmgCls = run.f ? 'dmg final' : 'dmg';
     return '<div class="tt-run">' +
-      '<div class="tt-boss"><b>' + esc(run.b) + '</b> · day ' + esc(run.d) + ' · step ' + esc(run.s) +
+      '<div class="tt-boss"><b>' + esc(run.b) + (run.l != null ? ' Lv ' + run.l : '') + '</b> · day ' + esc(run.d) + ' · step ' + esc(run.s) +
       ' · sync ' + esc(run.lv) + '</div>' +
       '<div class="tt-head"><span>' + (run.f ? '<span class="tt-final-tag">final hit</span>' : '') +
       '</span><span class="' + dmgCls + '">' + fmtDmg(run.m) + '</span></div>' +

@@ -148,12 +148,25 @@ tbody tr:hover { background: #182034; }
 .bl-link:hover { text-decoration: underline; }
 
 .cell-flag {
-  display: inline-block; margin-left: 6px;
+  display: inline-block;
   color: var(--bad); font-weight: 800; font-size: .62rem; text-transform: uppercase;
   letter-spacing: .4px; border: 1px solid #ff5d7366; background: #ff5d7314;
   padding: 1px 7px; border-radius: 999px; white-space: nowrap;
 }
-.cell-flag.newflag { color: var(--accent); border-color: #5b8cff66; background: #5b8cff14; }
+.cell-flag.solid { color: #fff; border: 0; }
+.cell-flag.solid.newflag { background: var(--accent); }
+.cell-flag.solid { background: var(--bad); }
+.cell-flag.fh { font-size: .6rem; }
+/* final-hit boss element pills: hollow — element-colored text + border, transparent bg */
+.el-purple    { color: #b8a6ff; border-color: #b8a6ff66; }
+.el-yellow    { color: #e8d44b; border-color: #e8d44b66; }
+.el-green     { color: #3ecf8e; border-color: #3ecf8e66; }
+.el-lightblue { color: #7fd4ff; border-color: #7fd4ff66; }
+.el-red       { color: #ff5d73; border-color: #ff5d7366; }
+.cell-flag.fh.hollow { background: transparent; }
+.note-text { color: #f0a354; font-size: .78rem; font-weight: 600; }
+.notes-cell { white-space: normal; min-width: 140px; }
+.notes-cell .cell-flag { margin: 1px 2px 1px 0; }
 .dmg-cell { cursor: pointer; }
 
 .footnote { margin-top: 12px; color: var(--muted); font-size: .75rem; }
