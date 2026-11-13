@@ -419,7 +419,9 @@
   // ---- Discord webhook ----
   const hookInput = $('#webhookUrl');
   hookInput.value = localStorage.getItem('unionWebhook') || '';
-  hookInput.addEventListener('change', () => localStorage.setItem('unionWebhook', hookInput.value.trim()));
+  const saveHook = () => localStorage.setItem('unionWebhook', hookInput.value.trim());
+  hookInput.addEventListener('change', saveHook);
+  hookInput.addEventListener('blur', saveHook);
   const toast = (msg, ok) => {
     const t = $('#toast');
     t.textContent = msg;
@@ -493,9 +495,14 @@
   }
 
   async function sendHit(r) {
-    const url = hookInput.value.trim();
-    if (!/^https:\/\/discord\.com\/api\/webhooks\//.test(url)) {
-      toast('Set a valid Discord webhook URL first', false); return;
+    let url = hookInput.value.trim();
+    // strip zero-width/invisible chars that sneak in from copy-paste
+    url = url.replace(/[\u200B-\u200D\uFEFF\u2028\u2029]/g, '');
+    // accept discord.com and legacy discordapp.com, with or without /api,
+    // with or without query strings (?wait=true etc.)
+    if (!/^https:\/\/(canary\.|ptb\.)?(discord(?:app)?\.com)\/api\/webhooks\/\d+\/[\w-]+/i.test(url) &&
+        !/^https:\/\/(canary\.|ptb\.)?(discord(?:app)?\.com)\/webhooks\/\d+\/[\w-]+/i.test(url)) {
+      toast('Set a valid Discord webhook URL (https://discord.com/api/webhooks/…)', false); return;
     }
     toast('Rendering card…', true);
     try {
