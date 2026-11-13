@@ -183,6 +183,12 @@ tbody tr:hover { background: #182034; }
   border: 1px solid #b8a6ff66; background: transparent;
   padding: 1px 7px; border-radius: 999px; white-space: nowrap;
 }
+.left-flag {
+  display: inline-block; color: #ff5d73; font-size: .66rem; font-weight: 700;
+  border: 1px solid #ff5d7366; background: transparent;
+  padding: 1px 7px; border-radius: 999px; white-space: nowrap;
+}
+tr.member-left td { opacity: .62; }
 .notes-cell { white-space: normal; min-width: 140px; }
 .notes-cell .cell-flag { margin: 1px 2px 1px 0; }
 .dmg-cell { cursor: pointer; }
@@ -234,3 +240,66 @@ tbody tr:hover { background: #182034; }
   .num { text-align: right; }
   .tooltip { max-width: 92vw; }
 }
+
+/* ---------- combat log tab ---------- */
+#viewLog[hidden] { display: none !important; }
+.filter-bar { display: flex; flex-wrap: wrap; gap: 8px; margin-bottom: 12px; align-items: flex-start; }
+.msel { position: relative; }
+.msel summary {
+  list-style: none; cursor: pointer; background: var(--panel); border: 1px solid var(--border);
+  color: var(--text); border-radius: 8px; padding: 7px 14px; font-size: .84rem; font-weight: 600;
+}
+.msel summary::-webkit-details-marker { display: none; }
+.msel summary::after { content: ' ▾'; color: var(--muted); }
+.msel-n { color: var(--accent); font-size: .75rem; }
+.msel-list {
+  position: absolute; z-index: 30; top: calc(100% + 4px); left: 0; min-width: 220px; max-height: 280px;
+  overflow: auto; background: var(--panel); border: 1px solid var(--border); border-radius: 10px;
+  padding: 8px; box-shadow: 0 10px 30px #000a;
+}
+.msel-list label { display: flex; gap: 8px; align-items: center; padding: 3px 6px; font-size: .82rem; border-radius: 6px; cursor: pointer; }
+.msel-list label:hover { background: var(--panel-2); }
+.clear-f {
+  background: transparent; border: 1px solid var(--border); color: var(--muted);
+  border-radius: 8px; padding: 7px 14px; font-size: .82rem; cursor: pointer;
+}
+.clear-f:hover { color: var(--text); border-color: var(--accent); }
+/* boss row shading */
+tr.boss-anmi td { background: #3ecf8e0d; }
+tr.boss-hsta td { background: #ff5d730d; }
+tr.boss-psid td { background: #7fd4ff0d; }
+tr.boss-zeus td { background: #b8a6ff0d; }
+tr.boss-dmt  td { background: #aab4c40d; }
+tr.boss-anmi td:first-child { box-shadow: inset 3px 0 0 #3ecf8e; }
+tr.boss-hsta td:first-child { box-shadow: inset 3px 0 0 #ff5d73; }
+tr.boss-psid td:first-child { box-shadow: inset 3px 0 0 #7fd4ff; }
+tr.boss-zeus td:first-child { box-shadow: inset 3px 0 0 #b8a6ff; }
+tr.boss-dmt  td:first-child { box-shadow: inset 3px 0 0 #aab4c4; }
+#logTable .tt-nikke { width: 44px; }
+#logTable .tt-nikke img, .tt-nikke img { width: 36px; height: 36px; }
+.tt-nikke.niche-unit img { border: 2px solid #f0a354; box-shadow: 0 0 8px #f0a35466; }
+.dev-tag { font-size: .68rem; font-weight: 800; }
+.final-yes { color: var(--good); font-weight: 800; }
+.send-btn {
+  background: var(--panel-2); border: 1px solid var(--border); color: var(--accent);
+  border-radius: 7px; padding: 3px 10px; cursor: pointer; font-size: .85rem;
+}
+.send-btn:hover { border-color: var(--accent); }
+.webhook-box {
+  margin-top: 22px; background: var(--panel); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 14px 16px; display: flex; flex-wrap: wrap;
+  gap: 10px; align-items: center;
+}
+.webhook-box label { font-size: .8rem; color: var(--muted); display: flex; flex-direction: column; gap: 6px; flex: 1; min-width: 260px; }
+.webhook-box input {
+  background: var(--bg-2); border: 1px solid var(--border); color: var(--text);
+  border-radius: 8px; padding: 8px 12px; font-size: .88rem; outline: none;
+}
+.webhook-box input:focus { border-color: var(--accent); }
+.toast {
+  position: fixed; bottom: 22px; left: 50%; transform: translateX(-50%); z-index: 100;
+  padding: 10px 20px; border-radius: 10px; font-weight: 700; font-size: .88rem;
+  box-shadow: 0 8px 24px #000c;
+}
+.toast-ok { background: #123527; color: var(--good); border: 1px solid #3ecf8e66; }
+.toast-err { background: #3a1620; color: var(--bad); border: 1px solid #ff5d7366; }

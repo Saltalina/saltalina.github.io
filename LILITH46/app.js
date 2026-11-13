@@ -133,6 +133,7 @@
     if (m.prevFlag === 'new') { parts.push(flagHtml('new')); flags.push('new member'); }
     if (m.curFlag === 'noattempt' || m.prevFlag === 'noattempt') { parts.push(flagHtml('noattempt')); flags.push('didnt attempt'); }
     for (const f of (m.finalHits || [])) parts.push(finalHitHtml(f));
+    if (m.left) parts.push('<span class="left-flag" title="Not in the latest snapshot (last seen ' + esc(m.left) + ')">✖ Left union</span>');
     if (m.renamedFrom) parts.push('<span class="renamed" title="Nickname in raid data">✎ was ' + esc(m.renamedFrom) + '</span>');
     if (m.joined) parts.push('<span class="joined-note" title="Joined this union">📅 ' + esc(m.joined) + '</span>');
     if (m.fromUnion) parts.push('<span class="from-union" title="Previous union">← from ' + esc(m.fromUnion) + '</span>');
@@ -171,7 +172,7 @@
   function renderRows() {
     tbody.innerHTML = '';
     for (const m of sortedMembers()) {
-    const tr = el('tr');
+    const tr = el('tr', m.left ? 'member-left' : '');
 
     // member cell
     let role = '';
@@ -192,13 +193,13 @@
     tr.appendChild(mk('', m.url
       ? '<a class="bl-link" href="' + esc(m.url) + '" target="_blank" rel="noopener">blablalink ↗</a>' : '—', 1));
 
-    tr.appendChild(mk('num', m.prevFlag === 'new' ? '<span class="muted">—</span>' : String(m.prevLv), 2));
+    tr.appendChild(mk('num', m.noPrev ? '<span class="muted">—</span>' : String(m.prevLv), 2));
     tr.appendChild(mk('num', String(m.curLv), 3));
-    tr.appendChild(mk('num ' + (m.prevFlag === 'new' ? 'muted' : m.growth > 0 ? 'delta-up' : m.growth < 0 ? 'delta-down' : 'muted'),
-      m.prevFlag === 'new' ? '—' : (m.growth > 0 ? '+' : '') + m.growth, 4));
+    tr.appendChild(mk('num ' + (m.growth > 0 ? 'delta-up' : m.growth < 0 ? 'delta-down' : 'muted'),
+      (m.growth > 0 ? '+' : '') + m.growth, 4));
 
     const tdP = mk('num dmg-cell',
-      (m.prevFlag ? '<span class="muted">—</span>' : fmtDmg(m.prevDmg)), 5);
+      (m.prevDmg == null ? '<span class="muted">—</span>' : fmtDmg(m.prevDmg)), 5);
     tdP.dataset.season = 'prev';
     tdP.dataset.nick = m.nick;
     tr.appendChild(tdP);
@@ -209,8 +210,8 @@
     tdC.dataset.nick = m.nick;
     tr.appendChild(tdC);
 
-    tr.appendChild(mk('num ' + (m.dmgChg > 0 ? 'delta-up' : m.dmgChg < 0 ? 'delta-down' : 'muted'),
-      (m.dmgChg > 0 ? '+' : '') + fmtDmg(m.dmgChg), 7));
+    tr.appendChild(mk('num ' + (m.dmgChg == null ? 'muted' : m.dmgChg > 0 ? 'delta-up' : m.dmgChg < 0 ? 'delta-down' : 'muted'),
+      m.dmgChg == null ? '—' : (m.dmgChg > 0 ? '+' : '') + fmtDmg(m.dmgChg), 7));
 
     tr.appendChild(mk('notes-cell', notesHtml(m), 8));
     tbody.appendChild(tr);
@@ -300,4 +301,229 @@
     });
   }
   window.addEventListener('scroll', () => { if (tipOpen) hideTip(); }, { passive: true });
+
+  // =================== COMBAT LOG TAB ===================
+  const LOG = D.log || [];
+  const bossEl = (b) => {
+    if (b.includes('A.N.M.I.')) return 'anmi';
+    if (b.includes('H.S.T.A.')) return 'hsta';
+    if (b.includes('P.S.I.D.')) return 'psid';
+    if (b.includes('Z.E.U.S.')) return 'zeus';
+    if (b.includes('D.M.T.R.')) return 'dmt';
+    return 'other';
+  };
+  const BOSS_COLORS = {
+    anmi: '#3ecf8e', hsta: '#ff5d73', psid: '#7fd4ff', zeus: '#b8a6ff', dmt: '#aab4c4', other: '#8b95ab',
+  };
+  const bossColor = (b) => BOSS_COLORS[bossEl(b)] || BOSS_COLORS.other;
+
+  // tab switching
+  const tabOv = $('#tabOverview'), tabLog = $('#tabLog');
+  const viewOv = $('#viewOverview'), viewLog = $('#viewLog');
+  tabOv.addEventListener('click', () => {
+    tabOv.classList.add('active'); tabLog.classList.remove('active');
+    viewOv.hidden = false; viewLog.hidden = true;
+  });
+  tabLog.addEventListener('click', () => {
+    tabLog.classList.add('active'); tabOv.classList.remove('active');
+    viewLog.hidden = false; viewOv.hidden = true;
+  });
+
+  // ---- filters (multi-select) ----
+  const uniq = (fn) => [...new Set(LOG.flatMap(fn))].sort();
+  const FILTERS = [
+    { id: 'boss', label: 'Boss', opts: uniq((r) => [r.boss]) },
+    { id: 'lvl', label: 'Level', opts: uniq((r) => [String(r.lvl)]) },
+    { id: 'nikke', label: 'Nikke', opts: uniq((r) => r.q.map((s) => s.n)) },
+    { id: 'user', label: 'User', opts: uniq((r) => [r.nick]) },
+  ];
+  const sel = { boss: new Set(), lvl: new Set(), nikke: new Set(), user: new Set() };
+  $('#filterBar').innerHTML = FILTERS.map((f) =>
+    '<details class="msel" data-f="' + f.id + '"><summary>' + esc(f.label) +
+    ' <span class="msel-n"></span></summary><div class="msel-list">' +
+    f.opts.map((o) => '<label><input type="checkbox" value="' + esc(o) + '"> ' + esc(o) + '</label>').join('') +
+    '</div></details>').join('') +
+    '<button class="clear-f" id="clearFilters">Clear filters</button>';
+  $('#filterBar').addEventListener('change', (e) => {
+    const d = e.target.closest('.msel');
+    if (!d) return;
+    const set = sel[d.dataset.f];
+    if (e.target.checked) set.add(e.target.value); else set.delete(e.target.value);
+    d.querySelector('.msel-n').textContent = set.size ? '(' + set.size + ')' : '';
+    renderLog();
+  });
+  $('#clearFilters').addEventListener('click', () => {
+    for (const k in sel) sel[k].clear();
+    document.querySelectorAll('.msel input').forEach((i) => { i.checked = false; });
+    document.querySelectorAll('.msel-n').forEach((n) => { n.textContent = ''; });
+    renderLog();
+  });
+  function filtered() {
+    return LOG.filter((r) =>
+      (!sel.boss.size || sel.boss.has(r.boss)) &&
+      (!sel.lvl.size || sel.lvl.has(String(r.lvl))) &&
+      (!sel.nikke.size || r.q.some((s) => sel.nikke.has(s.n))) &&
+      (!sel.user.size || sel.user.has(r.nick)));
+  }
+
+  // ---- log table ----
+  const LOG_COLS = ['User', 'usn', 'Synchro', 'Boss', 'Lvl', 'Squad Combat', 'Squad', 'Damage', 'Final', ''];
+  const LOG_LABELS = ['usn', 'Synchro', 'Boss', 'Lvl', 'Squad Combat', 'Squad', 'Damage', 'Final'];
+  const logHeadHtml = LOG_COLS.map((c, i) =>
+    '<th' + (i === 7 ? ' class="num"' : '') + '>' + esc(c) + '</th>').join('');
+  $('#logHead').innerHTML = logHeadHtml;
+  document.querySelectorAll('.logHeadClone').forEach((tr) => { tr.innerHTML = logHeadHtml; });
+
+  function squadHtml(r) {
+    return '<div class="tt-squad">' + r.q.map((s) => {
+      const img = s.i != null ? '<img src="' + IMG(s.i) + '" alt="">' : '';
+      const niche = (r.niche || []).includes(s.n) ? ' niche-unit' : '';
+      return '<div class="tt-nikke' + niche + '" title="' + esc(s.n) + '">' + img +
+        '<span class="tt-combat">⚔ ' + fmtNum(s.c) + '</span></div>';
+    }).join('') + '</div>';
+  }
+  function logRowHtml(r, idx) {
+    const av = r.icon != null ? '<img src="' + IMG(r.icon) + '" alt="">' : '';
+    const devTag = r.dev != null
+      ? ' <span class="dev-tag ' + (r.dev > 0 ? 'delta-up' : 'delta-down') + '">' +
+        (r.dev > 0 ? '+' : '') + Math.round(r.dev * 100) + '%</span>' : '';
+    return '<tr class="boss-' + bossEl(r.boss) + '" data-idx="' + idx + '">' +
+      '<td data-label="User"><div class="member-cell"><div class="member-avatar">' + av + '</div>' +
+        '<span class="member-name">' + esc(r.nick) + '</span></div></td>' +
+      '<td class="muted" data-label="usn">' + esc(r.usn) + '</td>' +
+      '<td class="num" data-label="Synchro">' + esc(r.lv) + '</td>' +
+      '<td data-label="Boss">' + esc(r.boss) + '</td>' +
+      '<td class="num" data-label="Lvl">' + esc(r.lvl) + '</td>' +
+      '<td class="num" data-label="Squad Combat">' + fmtNum(r.sc) + '</td>' +
+      '<td data-label="Squad">' + squadHtml(r) + '</td>' +
+      '<td class="num" data-label="Damage">' + fmtDmg(r.dmg) + devTag + '</td>' +
+      '<td data-label="Final">' + (r.final ? '<span class="final-yes">✔</span>' : '') + '</td>' +
+      '<td><button class="send-btn" title="Send hit card to Discord webhook">⤴</button></td>' +
+      '</tr>';
+  }
+  function renderLog() {
+    const rows = filtered();
+    $('#logCount').textContent = rows.length + ' / ' + LOG.length + ' hits';
+    $('#logBody').innerHTML = rows.map((r) => logRowHtml(r, LOG.indexOf(r))).join('');
+  }
+  renderLog();
+
+  // callout tables
+  const nicheRows = LOG.filter((r) => r.niche && r.niche.length);
+  const devRows = LOG.filter((r) => r.dev != null);
+  $('#nicheCount').textContent = nicheRows.length + ' hits';
+  $('#devCount').textContent = devRows.length + ' hits';
+  $('#nicheBody').innerHTML = nicheRows.map((r) => logRowHtml(r, LOG.indexOf(r))).join('');
+  $('#devBody').innerHTML = devRows.map((r) => logRowHtml(r, LOG.indexOf(r))).join('');
+
+  // ---- Discord webhook ----
+  const hookInput = $('#webhookUrl');
+  hookInput.value = localStorage.getItem('unionWebhook') || '';
+  hookInput.addEventListener('change', () => localStorage.setItem('unionWebhook', hookInput.value.trim()));
+  const toast = (msg, ok) => {
+    const t = $('#toast');
+    t.textContent = msg;
+    t.className = 'toast ' + (ok ? 'toast-ok' : 'toast-err');
+    setTimeout(() => t.classList.add('hidden'), 3500);
+  };
+  const loadImage = (src) => new Promise((res, rej) => {
+    const im = new Image(); im.onload = () => res(im); im.onerror = rej; im.src = src;
+  });
+
+  async function renderHitCard(r) {
+    const W = 900, H = 420, S = 2;
+    const cv = document.createElement('canvas'); cv.width = W * S; cv.height = H * S;
+    const c = cv.getContext('2d'); c.scale(S, S);
+    const color = bossColor(r.boss);
+    // background
+    c.fillStyle = '#0b0e14'; c.fillRect(0, 0, W, H);
+    c.fillStyle = '#151a26'; c.fillRect(10, 10, W - 20, H - 20);
+    c.strokeStyle = color; c.lineWidth = 3; c.strokeRect(10, 10, W - 20, H - 20);
+    c.fillStyle = color + '22'; c.fillRect(10, 10, W - 20, 74);
+    const font = (px, w) => (w ? w + ' ' : '') + px + 'px "Segoe UI", system-ui, sans-serif';
+    // header: user icon + nick + usn + sync
+    if (r.icon != null) {
+      try {
+        const im = await loadImage(IMG(r.icon));
+        c.save(); c.beginPath(); c.arc(62, 47, 28, 0, Math.PI * 2); c.clip();
+        c.drawImage(im, 34, 19, 56, 56); c.restore();
+        c.strokeStyle = color; c.lineWidth = 2;
+        c.beginPath(); c.arc(62, 47, 28, 0, Math.PI * 2); c.stroke();
+      } catch (_) {}
+    }
+    c.fillStyle = '#e6eaf2'; c.font = font(26, '700');
+    c.fillText(r.nick, 104, 42);
+    c.fillStyle = '#8b95ab'; c.font = font(15);
+    c.fillText('usn ' + r.usn + '  ·  Synchro ' + r.lv, 104, 66);
+    if (r.final) {
+      c.fillStyle = color; c.font = font(15, '800');
+      const tw = c.measureText('FINAL HIT').width;
+      c.fillText('FINAL HIT', W - 30 - tw, 52);
+    }
+    // boss line
+    c.fillStyle = color; c.font = font(22, '700');
+    c.fillText(r.boss + (r.lvl != null ? '  Lv ' + r.lvl : ''), 30, 122);
+    // damage
+    c.fillStyle = r.final ? '#ff5d73' : '#e6eaf2'; c.font = font(40, '800');
+    c.fillText(fmtDmg(r.dmg), 30, 178);
+    c.fillStyle = '#8b95ab'; c.font = font(14);
+    c.fillText('Squad combat ' + fmtNum(r.sc), 30, 204);
+    // squad icons
+    const box = 118, gap = 16, x0 = 30, y0 = 226;
+    for (let i = 0; i < r.q.length && i < 5; i++) {
+      const s = r.q[i], x = x0 + i * (box + gap);
+      c.fillStyle = '#1a2030'; c.fillRect(x, y0, box, box);
+      c.strokeStyle = (r.niche || []).includes(s.n) ? color : '#232b3d';
+      c.lineWidth = (r.niche || []).includes(s.n) ? 2 : 1;
+      c.strokeRect(x, y0, box, box);
+      if (s.i != null) {
+        try { const im = await loadImage(IMG(s.i)); c.drawImage(im, x + 2, y0 + 2, box - 4, box - 4); } catch (_) {}
+      }
+      c.fillStyle = '#e6eaf2'; c.font = font(14, '700');
+      const cw = c.measureText('⚔ ' + fmtNum(s.c)).width;
+      c.fillText('⚔ ' + fmtNum(s.c), x + (box - cw) / 2, y0 + box + 22);
+      c.fillStyle = '#8b95ab'; c.font = font(11);
+      const nw = Math.min(c.measureText(s.n).width, box);
+      c.fillText(s.n.slice(0, 18), x + (box - nw) / 2, y0 + box + 40);
+    }
+    // footer
+    c.fillStyle = '#8b95ab'; c.font = font(13);
+    c.fillText(U.name + ' · ' + U.server + ' gsn ' + U.gsn + ' · ' + curN + ' difficulty 2', 30, H - 26);
+    return cv;
+  }
+
+  async function sendHit(r) {
+    const url = hookInput.value.trim();
+    if (!/^https:\/\/discord\.com\/api\/webhooks\//.test(url)) {
+      toast('Set a valid Discord webhook URL first', false); return;
+    }
+    toast('Rendering card…', true);
+    try {
+      const cv = await renderHitCard(r);
+      const blob = await new Promise((res) => cv.toBlob(res, 'image/png'));
+      const fd = new FormData();
+      fd.append('payload_json', JSON.stringify({
+        content: null,
+        embeds: [{
+          title: r.nick + ' — ' + r.boss + (r.lvl != null ? ' Lv ' + r.lvl : ''),
+          description: (r.final ? '**FINAL HIT** · ' : '') +
+            'Damage **' + fmtDmg(r.dmg) + '** · Synchro ' + r.lv + ' · Squad combat ' + fmtNum(r.sc),
+          color: parseInt(bossColor(r.boss).slice(1), 16),
+        }],
+      }));
+      fd.append('files[0]', blob, 'hit.png');
+      const resp = await fetch(url, { method: 'POST', body: fd });
+      if (!resp.ok) throw new Error('HTTP ' + resp.status);
+      toast('Hit card sent ✔', true);
+    } catch (err) {
+      toast('Send failed: ' + err.message, false);
+    }
+  }
+  document.addEventListener('click', (e) => {
+    const btn = e.target.closest('.send-btn');
+    if (!btn) return;
+    const tr = btn.closest('tr');
+    const r = LOG[+tr.dataset.idx];
+    if (r) sendHit(r);
+  });
 })();
