@@ -4,6 +4,7 @@
   "name": "D",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -11,6 +12,7 @@
   "name": "Laplace",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -18,6 +20,7 @@
   "name": "Sakura",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": true
  },
  {
@@ -25,6 +28,7 @@
   "name": "Soldier EG",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -32,6 +36,7 @@
   "name": "Soldier FA",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -39,6 +44,7 @@
   "name": "Product 08",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -46,6 +52,7 @@
   "name": "Product 12",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -53,6 +60,7 @@
   "name": "iDoll Flower",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -60,6 +68,7 @@
   "name": "iDoll Ocean",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -67,6 +76,7 @@
   "name": "Mana",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -74,6 +84,7 @@
   "name": "Jackal",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -81,6 +92,7 @@
   "name": "Moran",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -88,6 +100,7 @@
   "name": "Viper",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -95,6 +108,7 @@
   "name": "iDoll Sun",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -102,6 +116,7 @@
   "name": "Product 23",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -109,6 +124,7 @@
   "name": "Soldier OW",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -116,6 +132,7 @@
   "name": "Rapi",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -123,6 +140,7 @@
   "name": "Neon",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -130,6 +148,7 @@
   "name": "Delta",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -137,6 +156,7 @@
   "name": "Rumani",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -144,6 +164,7 @@
   "name": "Anis",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -151,6 +172,7 @@
   "name": "Mihara",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -158,6 +180,7 @@
   "name": "Belorta",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -165,6 +188,7 @@
   "name": "Mica",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -172,6 +196,7 @@
   "name": "N102",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -179,6 +204,7 @@
   "name": "Ether",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -186,6 +212,7 @@
   "name": "Neve",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -193,6 +220,7 @@
   "name": "Himeno",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -200,6 +228,7 @@
   "name": "Ram",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -207,6 +236,7 @@
   "name": "Misato",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -214,6 +244,7 @@
   "name": "Sakura",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -221,6 +252,7 @@
   "name": "Lily",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -228,6 +260,7 @@
   "name": "Claire",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -235,6 +268,7 @@
   "name": "Kurumi",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -242,6 +276,7 @@
   "name": "Aigis",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -249,6 +284,7 @@
   "name": "Maxwell",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -256,6 +292,7 @@
   "name": "Sugar",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -263,6 +300,7 @@
   "name": "Exia",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -270,6 +308,7 @@
   "name": "Alice",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -277,6 +316,7 @@
   "name": "Emma",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -284,6 +324,7 @@
   "name": "Yuni",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -291,6 +332,7 @@
   "name": "Privaty",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -298,6 +340,7 @@
   "name": "Blanc",
   "burst_stage": 2,
   "ult_cd": 60,
+  "ult_cd_pve": 19,
   "cdr": false
  },
  {
@@ -305,6 +348,7 @@
   "name": "Noir",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -312,6 +356,7 @@
   "name": "Frima",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -319,6 +364,7 @@
   "name": "Liter",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -326,6 +372,7 @@
   "name": "Snow White",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -333,6 +380,7 @@
   "name": "Isabel",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -340,6 +388,7 @@
   "name": "Julia",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -347,6 +396,7 @@
   "name": "Signal",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -354,6 +404,7 @@
   "name": "Poli",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -361,6 +412,7 @@
   "name": "Miranda",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -368,6 +420,7 @@
   "name": "Brid",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -375,6 +428,7 @@
   "name": "Soline",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -382,6 +436,7 @@
   "name": "Diesel",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -389,6 +444,7 @@
   "name": "Centi",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -396,6 +452,7 @@
   "name": "Vesti",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -403,6 +460,7 @@
   "name": "Eunhwa",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -410,6 +468,7 @@
   "name": "Drake",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -417,6 +476,7 @@
   "name": "Crow",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -424,6 +484,7 @@
   "name": "Mary",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -431,6 +492,7 @@
   "name": "Pepper",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -438,6 +500,7 @@
   "name": "Milk",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -445,6 +508,7 @@
   "name": "Yulha",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -452,6 +516,7 @@
   "name": "Admi",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -459,6 +524,7 @@
   "name": "Guillotine",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -466,6 +532,7 @@
   "name": "Maiden",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -473,6 +540,7 @@
   "name": "Ludmilla",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -480,6 +548,7 @@
   "name": "Rupee",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -487,6 +556,7 @@
   "name": "Yan",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -494,6 +564,7 @@
   "name": "Dolla",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -501,6 +572,7 @@
   "name": "Novel",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -508,6 +580,7 @@
   "name": "Epinel",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -515,6 +588,7 @@
   "name": "Folkwang",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -522,6 +596,7 @@
   "name": "Rapunzel",
   "burst_stage": 1,
   "ult_cd": 60,
+  "ult_cd_pve": 60,
   "cdr": false
  },
  {
@@ -529,6 +604,7 @@
   "name": "Scarlet",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -536,6 +612,7 @@
   "name": "Harran",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -543,6 +620,7 @@
   "name": "Noah",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -550,6 +628,7 @@
   "name": "Modernia",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -557,6 +636,7 @@
   "name": "Rosanna",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -564,6 +644,7 @@
   "name": "Ade",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -571,6 +652,7 @@
   "name": "Marciana",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -578,6 +660,7 @@
   "name": "Rouge",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -585,6 +668,7 @@
   "name": "Cocoa",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -592,6 +676,7 @@
   "name": "Soda",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -599,6 +684,7 @@
   "name": "Kilo",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -606,6 +692,7 @@
   "name": "Biscuit",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -613,6 +700,7 @@
   "name": "Guilty",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -620,6 +708,7 @@
   "name": "Nihilister",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -627,6 +716,7 @@
   "name": "Sin",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -634,6 +724,7 @@
   "name": "Dorothy",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -641,6 +732,7 @@
   "name": "Anchor",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -648,6 +740,7 @@
   "name": "Mary: Bay Goddess",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -655,6 +748,7 @@
   "name": "Crown",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -662,6 +756,7 @@
   "name": "Helm",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -669,6 +764,7 @@
   "name": "Nero",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -676,6 +772,7 @@
   "name": "Rei",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -683,6 +780,7 @@
   "name": "Aria",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -690,6 +788,7 @@
   "name": "Neon: Blue Ocean",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -697,6 +796,7 @@
   "name": "Noise",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -704,6 +804,7 @@
   "name": "Volume",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -711,6 +812,7 @@
   "name": "Ein",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -718,6 +820,7 @@
   "name": "Quency",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -725,6 +828,7 @@
   "name": "Mast",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -732,6 +836,7 @@
   "name": "Tove",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -739,6 +844,7 @@
   "name": "Quiry",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -746,6 +852,7 @@
   "name": "Anne: Miracle Fairy",
   "burst_stage": 2,
   "ult_cd": 60,
+  "ult_cd_pve": 60,
   "cdr": false
  },
  {
@@ -753,6 +860,7 @@
   "name": "Rupee: Winter Shopper",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -760,6 +868,7 @@
   "name": "Zwei",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -767,6 +876,7 @@
   "name": "Makima",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 11,
   "cdr": false
  },
  {
@@ -774,6 +884,7 @@
   "name": "Power",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -781,6 +892,7 @@
   "name": "Leona",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -788,6 +900,7 @@
   "name": "2B",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -795,6 +908,7 @@
   "name": "A2",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -802,6 +916,7 @@
   "name": "Pascal",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -809,6 +924,7 @@
   "name": "Anis: Sparkling Summer",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -816,6 +932,7 @@
   "name": "Helm: Aquamarine",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -823,6 +940,7 @@
   "name": "Naga",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -830,6 +948,7 @@
   "name": "Tia",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 33,
   "cdr": false
  },
  {
@@ -837,6 +956,7 @@
   "name": "Red Hood",
   "burst_stage": 5,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -844,6 +964,7 @@
   "name": "Snow White: Innocent Days",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -851,6 +972,7 @@
   "name": "Ludmilla: Winter Owner",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -858,6 +980,7 @@
   "name": "Mica: Snow Buddy",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -865,6 +988,7 @@
   "name": "Scarlet: Black Shadow",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -872,6 +996,7 @@
   "name": "Privaty: Unkind Maid",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -879,6 +1004,7 @@
   "name": "Elegg",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -886,6 +1012,7 @@
   "name": "Rem",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -893,6 +1020,7 @@
   "name": "Emilia",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -900,6 +1028,7 @@
   "name": "D: Killer Wife",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -907,6 +1036,7 @@
   "name": "Bay",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -914,6 +1044,7 @@
   "name": "Trony",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -921,6 +1052,7 @@
   "name": "Soda: Twinkling Bunny",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -928,6 +1060,7 @@
   "name": "Alice: Wonderland Bunny",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -935,6 +1068,7 @@
   "name": "Clay",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -942,6 +1076,7 @@
   "name": "Rosanna: Chic Ocean",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -949,6 +1084,7 @@
   "name": "Sakura: Bloom in Summer",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -956,6 +1092,7 @@
   "name": "Asuka",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -963,6 +1100,7 @@
   "name": "Rei",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -970,6 +1108,7 @@
   "name": "Mari",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -977,6 +1116,7 @@
   "name": "Quency: Escape Queen",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -984,6 +1124,7 @@
   "name": "Phantom",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -991,6 +1132,7 @@
   "name": "Rapunzel: Pure Grace",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -998,6 +1140,7 @@
   "name": "Cinderella",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1005,6 +1148,7 @@
   "name": "Grave",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1012,6 +1156,7 @@
   "name": "Flora",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1019,6 +1164,7 @@
   "name": "Maiden: Ice Rose",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1026,6 +1172,7 @@
   "name": "Guillotine: Winter Slayer",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1033,6 +1180,7 @@
   "name": "Rapi: Red Hood",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -1040,6 +1188,7 @@
   "name": "Mast: Romantic Maid",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1047,6 +1196,7 @@
   "name": "Anchor: Innocent Maid",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1054,6 +1204,7 @@
   "name": "Rei (Tentative Name)",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1061,6 +1212,7 @@
   "name": "Asuka: WILLE",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1068,6 +1220,7 @@
   "name": "Trina",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1075,6 +1228,7 @@
   "name": "Bready",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1082,6 +1236,7 @@
   "name": "Crust",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1089,6 +1244,7 @@
   "name": "Little Mermaid",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -1096,6 +1252,7 @@
   "name": "Mihara: Bonding Chain",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1103,6 +1260,7 @@
   "name": "Mori",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1110,6 +1268,7 @@
   "name": "Arcana",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": true
  },
  {
@@ -1117,6 +1276,7 @@
   "name": "K",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1124,6 +1284,7 @@
   "name": "EVE",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1131,6 +1292,7 @@
   "name": "Raven",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1138,6 +1300,7 @@
   "name": "Sora",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1145,6 +1308,7 @@
   "name": "Dorothy: Serendipity",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1152,6 +1316,7 @@
   "name": "Elegg: Boom and Shock",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1159,6 +1324,7 @@
   "name": "Emma: Tactical Upgrade",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1166,6 +1332,7 @@
   "name": "Vesti: Tactical Upgrade",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1173,6 +1340,7 @@
   "name": "Eunhwa: Tactical Upgrade",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1180,6 +1348,7 @@
   "name": "Milk: Blooming Bunny",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1187,6 +1356,7 @@
   "name": "Ade: Agent Bunny",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1194,6 +1364,7 @@
   "name": "Ada",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1201,6 +1372,7 @@
   "name": "Jill",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1208,6 +1380,7 @@
   "name": "Delta: Ninja Thief",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1215,6 +1388,7 @@
   "name": "Nayuta",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1222,6 +1396,7 @@
   "name": "Liberalio",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1229,6 +1404,7 @@
   "name": "Chime",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1236,6 +1412,7 @@
   "name": "Soline: Frost Ticket",
   "burst_stage": 1,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": true
  },
  {
@@ -1243,6 +1420,7 @@
   "name": "Diesel: Winter Sweets",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1250,6 +1428,7 @@
   "name": "Brid: Silent Track",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1257,6 +1436,7 @@
   "name": "Snow White: Heavy Arms",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1264,6 +1444,7 @@
   "name": "Label",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1271,6 +1452,7 @@
   "name": "Velvet",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1278,6 +1460,7 @@
   "name": "Chisato",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1285,6 +1468,7 @@
   "name": "Takina",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1292,6 +1476,7 @@
   "name": "E.H.",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1299,6 +1484,7 @@
   "name": "Arcana: Fortune Mate",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1306,6 +1492,7 @@
   "name": "Snow Crane",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1313,6 +1500,7 @@
   "name": "Anis: Star",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": true
  },
  {
@@ -1320,6 +1508,7 @@
   "name": "Neon: Vision Eye",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1327,6 +1516,7 @@
   "name": "Avistar",
   "burst_stage": 1,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1334,6 +1524,7 @@
   "name": "Mint",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1341,6 +1532,7 @@
   "name": "Prika",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1348,6 +1540,7 @@
   "name": "Ark Ranger Black",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1355,6 +1548,7 @@
   "name": "Cinderella: Crystal Wave",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1362,6 +1556,7 @@
   "name": "Marciana: Marine Study",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1369,6 +1564,7 @@
   "name": "Laplace: Ultimate Hero",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1376,6 +1572,7 @@
   "name": "Maxwell: Ordinary Mechanic",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  },
  {
@@ -1383,6 +1580,7 @@
   "name": "Queen (Makoto)",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1390,6 +1588,7 @@
   "name": "Yukiko",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1397,6 +1596,7 @@
   "name": "Drake: Great Villain",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1404,6 +1604,7 @@
   "name": "Guilty: Mighty Bunny",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1411,6 +1612,7 @@
   "name": "Sin: Swift Bunny",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1418,6 +1620,7 @@
   "name": "Belorta: Pumpkin Witch",
   "burst_stage": 2,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1425,6 +1628,7 @@
   "name": "Marian: Queen",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1432,6 +1636,7 @@
   "name": "Scarlet: Goddeath",
   "burst_stage": 3,
   "ult_cd": 40,
+  "ult_cd_pve": 40,
   "cdr": false
  },
  {
@@ -1439,6 +1644,7 @@
   "name": "Rapunzel: Sanctuary",
   "burst_stage": 2,
   "ult_cd": 20,
+  "ult_cd_pve": 20,
   "cdr": false
  }
 ]

@@ -131,6 +131,7 @@ select, .search, #wh-url {
   border-radius: 5px; background: #5b8cff22; color: var(--accent); border: 1px solid #5b8cff33;
 }
 .tag.cdr { background: #3ecf8e22; color: var(--good); border-color: #3ecf8e33; }
+.tag.selfcdr { background: #4fc3f722; color: #4fc3f7; border-color: #4fc3f733; }
 .tag.treasure { background: #e8b84b22; color: var(--gold, #e8b84b); border-color: #e8b84b33; }
 .bstep { position: absolute; top: 6px; left: 6px; font-size: .68rem; font-weight: 900;
   background: #0b0e14cc; border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; }
@@ -150,6 +151,9 @@ select, .search, #wh-url {
 .tooltip .t-skill b { font-size: .8rem; color: var(--accent); }
 .tooltip .t-skill p { font-size: .76rem; color: var(--text); white-space: pre-line; line-height: 1.35; margin-top: 2px; }
 .tooltip .t-new { color: var(--warn); font-size: .68rem; font-weight: 800; margin-left: 5px; }
+.tooltip .t-cdr { color: var(--good); font-size: .68rem; font-weight: 800; margin-left: 5px;
+  border: 1px solid #3ecf8e33; background: #3ecf8e22; padding: 1px 5px; border-radius: 5px; }
+.cd-old { color: var(--muted); font-size: .85em; }
 
 /* ---------- monster detail ---------- */
 .monster-detail { display: flex; flex-direction: column; gap: 14px; }
