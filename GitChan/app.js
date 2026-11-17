@@ -138,20 +138,44 @@ function renderTeams() {
         e.dataTransfer.setData("text/x-move", JSON.stringify({ from: ti, idx: si }));
         e.dataTransfer.effectAllowed = "move";
       });
+      row.addEventListener("dragend", clearDropMarks);
+      row.addEventListener("dragover", e => {
+        if (!e.dataTransfer.types.includes("text/x-move")) return;
+        e.preventDefault(); e.stopPropagation();
+        const before = isBeforeInRow(e, row);
+        row.classList.toggle("drop-before", before);
+        row.classList.toggle("drop-after", !before);
+      });
+      row.addEventListener("dragleave", () => row.classList.remove("drop-before", "drop-after"));
+      row.addEventListener("drop", e => {
+        const mv = e.dataTransfer.getData("text/x-move");
+        if (!mv) return;                 // grid-copy drops fall through to the team handler
+        e.preventDefault(); e.stopPropagation();
+        row.classList.remove("drop-before", "drop-after");
+        const { from, idx } = JSON.parse(mv);
+        if (from === ti && idx === si) { renderAll(); return; }   // dropped on self
+        const before = isBeforeInRow(e, row);
+        let to = si + (before ? 0 : 1);
+        const member = state.teams[from].splice(idx, 1)[0];
+        if (from === ti && idx < to) to -= 1;
+        state.teams[ti].splice(to, 0, member);
+        renderAll();
+      });
       row.querySelector(".ts-x").onclick = () => removeMember(ti, si);
       attachTooltip(row, nk, m.phase);
       slots.appendChild(row);
     });
     div.addEventListener("dragover", e => { e.preventDefault(); div.classList.add("drag-over"); });
-    div.addEventListener("dragleave", () => div.classList.remove("drag-over"));
+    div.addEventListener("dragleave", ev => { if (!div.contains(ev.relatedTarget)) div.classList.remove("drag-over"); });
     div.addEventListener("drop", e => {
+      if (e.target.closest(".team-slot")) return;   // slot handler already handled it
       e.preventDefault(); div.classList.remove("drag-over");
       const mv = e.dataTransfer.getData("text/x-move");
       if (mv) {
+        // dropped on team padding (not a slot): cross-team append, same-team move to end
         const { from, idx } = JSON.parse(mv);
         const member = state.teams[from].splice(idx, 1)[0];
-        if (from !== ti) state.teams[ti].push(member);
-        else state.teams[ti].splice(Math.min(idx, state.teams[ti].length), 0, member);
+        state.teams[ti].push(member);
       } else {
         const add = JSON.parse(e.dataTransfer.getData("text/plain") || "null");
         if (add && state.teams[ti].length < 5 && !state.used.has(add.nc)) {
@@ -163,6 +187,14 @@ function renderTeams() {
     wrap.appendChild(div);
   });
   renderWarnings();
+}
+function isBeforeInRow(e, row) {
+  const r = row.getBoundingClientRect();
+  return e.clientX < r.left + r.width / 2;
+}
+function clearDropMarks() {
+  $$(".team-slot").forEach(s => s.classList.remove("drop-before", "drop-after"));
+  $$(".team").forEach(t => t.classList.remove("drag-over"));
 }
 function removeMember(ti, si) {
   const m = state.teams[ti].splice(si, 1)[0];
@@ -328,40 +360,106 @@ function renderShareSel() {
     state.teams.map((_, i) => `<option value="${i}">Team ${i + 1}</option>`).join("");
 }
 
-/* render selected teams to a canvas image */
+/* render selected teams to a canvas image — mirrors the in-app card design */
+const FONT = "'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif";
+function pill(ctx, text, x, y, fg, bg, border) {
+  ctx.font = `800 11px ${FONT}`;
+  const w = ctx.measureText(text).width + 12, h = 18;
+  ctx.fillStyle = bg; ctx.strokeStyle = border; ctx.lineWidth = 1;
+  ctx.beginPath(); ctx.roundRect(x, y, w, h, 5); ctx.fill(); ctx.stroke();
+  ctx.fillStyle = fg; ctx.textAlign = "center";
+  ctx.fillText(text, x + w / 2, y + 13);
+  ctx.textAlign = "left";
+  return w;
+}
 async function renderTeamsCanvas(teamIdxs) {
-  const W = 1000, rowH = 118, headH = 70;
-  const H = headH + teamIdxs.length * rowH + 20;
-  const cv = document.createElement("canvas"); cv.width = W; cv.height = H;
+  const S = 2;                                  // supersample for crisp text
+  const W = 1080, headH = 84, cardW = 190, cardH = 176, gap = 12, pad = 18;
+  const teamH = 40 + cardH + pad;
+  const H = headH + teamIdxs.length * (teamH + 12) + 16;
+  const cv = document.createElement("canvas");
+  cv.width = W * S; cv.height = H * S;
   const ctx = cv.getContext("2d");
-  ctx.fillStyle = "#0b0e14"; ctx.fillRect(0, 0, W, H);
-  ctx.fillStyle = "#5b8cff"; ctx.font = "bold 30px 'Segoe UI'";
+  ctx.scale(S, S);
+  // background like the app
+  const grad = ctx.createRadialGradient(W * 0.8, -100, 50, W * 0.8, -100, 900);
+  grad.addColorStop(0, "#1a2340"); grad.addColorStop(1, "#0b0e14");
+  ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
+
   const s = currentSeason();
-  const boss = state.mode === "union" ? currentBoss().name + " — Step " + state.step : (currentSeason().challenge?.name || "") + " (Challenge)";
-  ctx.fillText(`${state.mode === "union" ? "Union Raid" : "Solo Raid"} — Season ${s.season} — ${boss}`, 24, 44);
+  const boss = state.mode === "union"
+    ? `${currentBoss().name} — Step ${state.step}`
+    : `${currentSeason().challenge?.name || ""} (Challenge)`;
+  ctx.fillStyle = "#5b8cff"; ctx.font = `bold 26px ${FONT}`;
+  ctx.fillText("◈ Nikke Team Builder", 24, 40);
+  ctx.fillStyle = "#8a94a8"; ctx.font = `600 15px ${FONT}`;
+  ctx.fillText(`${state.mode === "union" ? "Union Raid" : "Solo Raid"}  ·  Season ${s.season}  ·  ${boss}`, 24, 66);
+
   let y = headH;
   for (const ti of teamIdxs) {
-    ctx.fillStyle = "#151a26";
-    ctx.beginPath(); ctx.roundRect(20, y, W - 40, rowH - 14, 12); ctx.fill();
-    ctx.fillStyle = "#8a94a8"; ctx.font = "bold 15px 'Segoe UI'";
-    ctx.fillText(`TEAM ${ti + 1}`, 34, y + 22);
-    let x = 34;
+    // team panel
+    ctx.fillStyle = "#151a26"; ctx.strokeStyle = "#232b3d"; ctx.lineWidth = 1;
+    ctx.beginPath(); ctx.roundRect(20, y, W - 40, teamH, 14); ctx.fill(); ctx.stroke();
+    ctx.fillStyle = "#8a94a8"; ctx.font = `800 13px ${FONT}`;
+    ctx.fillText(`TEAM ${ti + 1}`, 20 + pad, y + 26);
+    const warns = teamWarnings(state.teams[ti]).filter(w => w.lvl !== "good");
+    let wx = 110;
+    for (const w of warns.slice(0, 2)) {
+      ctx.font = `700 11px ${FONT}`;
+      const tw = ctx.measureText(w.t).width + 14;
+      if (wx + tw < W - 40 - pad) {
+        const c = w.lvl === "bad" ? ["#ff5d73", "#ff5d7312", "#ff5d7344"] : ["#e8b84b", "#e8b84b12", "#e8b84b44"];
+        wx += pill(ctx, "⚠ " + w.t, wx, y + 12, c[0], c[1], c[2]) + 6;
+      }
+    }
+    // member cards
+    let x = 20 + pad;
+    const cy = y + 40;
     for (const m of state.teams[ti]) {
       const nk = byNc[m.nc];
       const ph = unitPhase(nk, m.phase);
+      ctx.fillStyle = "#1a2030"; ctx.strokeStyle = "#232b3d";
+      ctx.beginPath(); ctx.roundRect(x, cy, cardW, cardH, 10); ctx.fill(); ctx.stroke();
+      // icon
+      const ix = x + (cardW - 96) / 2;
       if (nk.icon) {
         const img = await loadImg(nk.icon);
-        ctx.save(); ctx.beginPath(); ctx.roundRect(x, y + 30, 64, 64, 8); ctx.clip();
-        ctx.drawImage(img, x, y + 30, 64, 64); ctx.restore();
+        if (img) { ctx.save(); ctx.beginPath(); ctx.roundRect(ix, cy + 8, 96, 96, 8); ctx.clip();
+          ctx.drawImage(img, ix, cy + 8, 96, 96); ctx.restore(); }
       }
-      ctx.fillStyle = "#e6eaf2"; ctx.font = "bold 13px 'Segoe UI'";
-      const nm = nk.name.length > 16 ? nk.name.slice(0, 15) + "…" : nk.name;
-      ctx.fillText(nm + (m.phase ? ` P${m.phase}` : ""), x, y + 108);
-      ctx.fillStyle = "#8a94a8"; ctx.font = "11px 'Segoe UI'";
-      ctx.fillText(`B${nk.burst === 5 ? "★" : nk.burst} ${nk.weapon} ${ph.cd}s${ph.cdr ? " CDR" : ""}`, x + 2, y + 122 - 2);
-      x += 185;
+      // burst badge
+      ctx.fillStyle = "#0b0e14cc"; ctx.strokeStyle = "#232b3d";
+      ctx.beginPath(); ctx.roundRect(x + 6, cy + 6, 30, 20, 6); ctx.fill(); ctx.stroke();
+      ctx.fillStyle = nk.burst === 5 ? "#9a6bff" : "#e6eaf2"; ctx.font = `900 12px ${FONT}`;
+      ctx.fillText("B" + (nk.burst === 5 ? "★" : nk.burst), x + 12, cy + 20);
+      // name
+      ctx.fillStyle = "#e6eaf2"; ctx.font = `700 13px ${FONT}`; ctx.textAlign = "center";
+      let nm = nk.name + (m.phase ? ` P${m.phase}` : "");
+      while (ctx.measureText(nm).width > cardW - 12 && nm.length > 4) nm = nm.slice(0, -2) + "…";
+      ctx.fillText(nm, x + cardW / 2, cy + 122);
+      // sub line with element color
+      ctx.font = `600 11px ${FONT}`;
+      const sub = `${nk.weapon} · ${ph.cd}s · `;
+      const subW = ctx.measureText(sub).width, elW = ctx.measureText(nk.element).width;
+      const sx = x + (cardW - (subW + elW)) / 2;
+      ctx.textAlign = "left";
+      ctx.fillStyle = "#8a94a8"; ctx.fillText(sub, sx, cy + 140);
+      ctx.fillStyle = nk.color; ctx.fillText(nk.element, sx + subW, cy + 140);
+      // tags row
+      let tx = x + 8;
+      const tags = [];
+      if (ph.cdr) tags.push(["CDR" + (ph.cdrCond ? "*" : ""), "#3ecf8e", "#3ecf8e22", "#3ecf8e33"]);
+      if (nk.treasure) tags.push(["TREASURE", "#e8b84b", "#e8b84b22", "#e8b84b33"]);
+      for (const t of ph.tags.filter(t => t !== "CDR").slice(0, 2)) tags.push([t, "#5b8cff", "#5b8cff22", "#5b8cff33"]);
+      for (const [label, fg, bg, bd] of tags) {
+        const used = pill(ctx, label, tx, cy + 150, fg, bg, bd);
+        tx += used + 4;
+        if (tx > x + cardW - 20) break;
+      }
+      ctx.textAlign = "left";
+      x += cardW + gap;
     }
-    y += rowH;
+    y += teamH + 12;
   }
   return cv;
 }

@@ -91,6 +91,8 @@ select, .search, #wh-url {
 .team-slot .ts-x { position: absolute; top: 3px; right: 3px; color: var(--muted); cursor: pointer;
   padding: 1px 6px; border-radius: 6px; background: #0b0e14aa; font-size: .75rem; }
 .team-slot .ts-x:hover { color: var(--bad); background: #ff5d7322; }
+.team-slot.drop-before { box-shadow: -3px 0 0 0 var(--accent); }
+.team-slot.drop-after  { box-shadow: 3px 0 0 0 var(--accent); }
 .team-empty { border: 1px dashed var(--border); border-radius: 10px; flex: 1; min-width: 120px; display: flex; align-items: center; justify-content: center; color: var(--muted); font-size: .8rem; }
 
 /* ---------- warnings ---------- */
