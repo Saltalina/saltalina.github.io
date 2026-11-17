@@ -1,0 +1,1444 @@
+[
+ {
+  "name_code": 1007,
+  "name": "D",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1010,
+  "name": "Laplace",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1012,
+  "name": "Sakura",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": true
+ },
+ {
+  "name_code": 1013,
+  "name": "Soldier EG",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1014,
+  "name": "Soldier FA",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1015,
+  "name": "Product 08",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1016,
+  "name": "Product 12",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1017,
+  "name": "iDoll Flower",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1018,
+  "name": "iDoll Ocean",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1019,
+  "name": "Mana",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1020,
+  "name": "Jackal",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1021,
+  "name": "Moran",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1022,
+  "name": "Viper",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1023,
+  "name": "iDoll Sun",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 1024,
+  "name": "Product 23",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 1025,
+  "name": "Soldier OW",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3001,
+  "name": "Rapi",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3002,
+  "name": "Neon",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3003,
+  "name": "Delta",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3004,
+  "name": "Rumani",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3005,
+  "name": "Anis",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3006,
+  "name": "Mihara",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3007,
+  "name": "Belorta",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3008,
+  "name": "Mica",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3009,
+  "name": "N102",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3010,
+  "name": "Ether",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3011,
+  "name": "Neve",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3012,
+  "name": "Himeno",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3013,
+  "name": "Ram",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3014,
+  "name": "Misato",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3015,
+  "name": "Sakura",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3016,
+  "name": "Lily",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3017,
+  "name": "Claire",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 3018,
+  "name": "Kurumi",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 3019,
+  "name": "Aigis",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5001,
+  "name": "Maxwell",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5002,
+  "name": "Sugar",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5003,
+  "name": "Exia",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5004,
+  "name": "Alice",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5005,
+  "name": "Emma",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5006,
+  "name": "Yuni",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5007,
+  "name": "Privaty",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5008,
+  "name": "Blanc",
+  "burst_stage": 2,
+  "ult_cd": 60,
+  "cdr": false
+ },
+ {
+  "name_code": 5009,
+  "name": "Noir",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5010,
+  "name": "Frima",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5011,
+  "name": "Liter",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5012,
+  "name": "Snow White",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5013,
+  "name": "Isabel",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5014,
+  "name": "Julia",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5015,
+  "name": "Signal",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5016,
+  "name": "Poli",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5017,
+  "name": "Miranda",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5018,
+  "name": "Brid",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5019,
+  "name": "Soline",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5020,
+  "name": "Diesel",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5021,
+  "name": "Centi",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5022,
+  "name": "Vesti",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5023,
+  "name": "Eunhwa",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5024,
+  "name": "Drake",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5025,
+  "name": "Crow",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5026,
+  "name": "Mary",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5027,
+  "name": "Pepper",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5028,
+  "name": "Milk",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5029,
+  "name": "Yulha",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5030,
+  "name": "Admi",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5031,
+  "name": "Guillotine",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5032,
+  "name": "Maiden",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5033,
+  "name": "Ludmilla",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5034,
+  "name": "Rupee",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5035,
+  "name": "Yan",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5036,
+  "name": "Dolla",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5037,
+  "name": "Novel",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5038,
+  "name": "Epinel",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5039,
+  "name": "Folkwang",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5040,
+  "name": "Rapunzel",
+  "burst_stage": 1,
+  "ult_cd": 60,
+  "cdr": false
+ },
+ {
+  "name_code": 5041,
+  "name": "Scarlet",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5042,
+  "name": "Harran",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5043,
+  "name": "Noah",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5044,
+  "name": "Modernia",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5045,
+  "name": "Rosanna",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5046,
+  "name": "Ade",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5048,
+  "name": "Marciana",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5049,
+  "name": "Rouge",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5050,
+  "name": "Cocoa",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5051,
+  "name": "Soda",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5053,
+  "name": "Kilo",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5054,
+  "name": "Biscuit",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5055,
+  "name": "Guilty",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5056,
+  "name": "Nihilister",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5059,
+  "name": "Sin",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5061,
+  "name": "Dorothy",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5063,
+  "name": "Anchor",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5064,
+  "name": "Mary: Bay Goddess",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5065,
+  "name": "Crown",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5066,
+  "name": "Helm",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5068,
+  "name": "Nero",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5069,
+  "name": "Rei",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5070,
+  "name": "Aria",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5071,
+  "name": "Neon: Blue Ocean",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5074,
+  "name": "Noise",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5075,
+  "name": "Volume",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5077,
+  "name": "Ein",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5078,
+  "name": "Quency",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5079,
+  "name": "Mast",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5081,
+  "name": "Tove",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5082,
+  "name": "Quiry",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5085,
+  "name": "Anne: Miracle Fairy",
+  "burst_stage": 2,
+  "ult_cd": 60,
+  "cdr": false
+ },
+ {
+  "name_code": 5087,
+  "name": "Rupee: Winter Shopper",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5088,
+  "name": "Zwei",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5089,
+  "name": "Makima",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5090,
+  "name": "Power",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5092,
+  "name": "Leona",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5094,
+  "name": "2B",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5095,
+  "name": "A2",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5096,
+  "name": "Pascal",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5097,
+  "name": "Anis: Sparkling Summer",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5098,
+  "name": "Helm: Aquamarine",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5099,
+  "name": "Naga",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5100,
+  "name": "Tia",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5101,
+  "name": "Red Hood",
+  "burst_stage": 5,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5102,
+  "name": "Snow White: Innocent Days",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5103,
+  "name": "Ludmilla: Winter Owner",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5104,
+  "name": "Mica: Snow Buddy",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5105,
+  "name": "Scarlet: Black Shadow",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5106,
+  "name": "Privaty: Unkind Maid",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5107,
+  "name": "Elegg",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5108,
+  "name": "Rem",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5109,
+  "name": "Emilia",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5110,
+  "name": "D: Killer Wife",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5111,
+  "name": "Bay",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5112,
+  "name": "Trony",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5113,
+  "name": "Soda: Twinkling Bunny",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5114,
+  "name": "Alice: Wonderland Bunny",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5115,
+  "name": "Clay",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5116,
+  "name": "Rosanna: Chic Ocean",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5117,
+  "name": "Sakura: Bloom in Summer",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5118,
+  "name": "Asuka",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5119,
+  "name": "Rei",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5120,
+  "name": "Mari",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5121,
+  "name": "Quency: Escape Queen",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5122,
+  "name": "Phantom",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5123,
+  "name": "Rapunzel: Pure Grace",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5124,
+  "name": "Cinderella",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5125,
+  "name": "Grave",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5126,
+  "name": "Flora",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5127,
+  "name": "Maiden: Ice Rose",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5128,
+  "name": "Guillotine: Winter Slayer",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5129,
+  "name": "Rapi: Red Hood",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": true
+ },
+ {
+  "name_code": 5130,
+  "name": "Mast: Romantic Maid",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5131,
+  "name": "Anchor: Innocent Maid",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5132,
+  "name": "Rei (Tentative Name)",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5133,
+  "name": "Asuka: WILLE",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5134,
+  "name": "Trina",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5135,
+  "name": "Bready",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5136,
+  "name": "Crust",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5137,
+  "name": "Little Mermaid",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5138,
+  "name": "Mihara: Bonding Chain",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5139,
+  "name": "Mori",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5140,
+  "name": "Arcana",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": true
+ },
+ {
+  "name_code": 5141,
+  "name": "K",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5142,
+  "name": "EVE",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5143,
+  "name": "Raven",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5144,
+  "name": "Sora",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5145,
+  "name": "Dorothy: Serendipity",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5146,
+  "name": "Elegg: Boom and Shock",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5147,
+  "name": "Emma: Tactical Upgrade",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5148,
+  "name": "Vesti: Tactical Upgrade",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5149,
+  "name": "Eunhwa: Tactical Upgrade",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5150,
+  "name": "Milk: Blooming Bunny",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5151,
+  "name": "Ade: Agent Bunny",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5152,
+  "name": "Ada",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5153,
+  "name": "Jill",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5154,
+  "name": "Delta: Ninja Thief",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5155,
+  "name": "Nayuta",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5156,
+  "name": "Liberalio",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5157,
+  "name": "Chime",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5158,
+  "name": "Soline: Frost Ticket",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "cdr": true
+ },
+ {
+  "name_code": 5159,
+  "name": "Diesel: Winter Sweets",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5160,
+  "name": "Brid: Silent Track",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5161,
+  "name": "Snow White: Heavy Arms",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5162,
+  "name": "Label",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5163,
+  "name": "Velvet",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5164,
+  "name": "Chisato",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5165,
+  "name": "Takina",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5166,
+  "name": "E.H.",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5167,
+  "name": "Arcana: Fortune Mate",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5168,
+  "name": "Snow Crane",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5169,
+  "name": "Anis: Star",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": true
+ },
+ {
+  "name_code": 5170,
+  "name": "Neon: Vision Eye",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5171,
+  "name": "Avistar",
+  "burst_stage": 1,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5172,
+  "name": "Mint",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5173,
+  "name": "Prika",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5174,
+  "name": "Ark Ranger Black",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5175,
+  "name": "Cinderella: Crystal Wave",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5176,
+  "name": "Marciana: Marine Study",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5177,
+  "name": "Laplace: Ultimate Hero",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5178,
+  "name": "Maxwell: Ordinary Mechanic",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ },
+ {
+  "name_code": 5179,
+  "name": "Queen (Makoto)",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5180,
+  "name": "Yukiko",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5181,
+  "name": "Drake: Great Villain",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5182,
+  "name": "Guilty: Mighty Bunny",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5183,
+  "name": "Sin: Swift Bunny",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5184,
+  "name": "Belorta: Pumpkin Witch",
+  "burst_stage": 2,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5185,
+  "name": "Marian: Queen",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5186,
+  "name": "Scarlet: Goddeath",
+  "burst_stage": 3,
+  "ult_cd": 40,
+  "cdr": false
+ },
+ {
+  "name_code": 5187,
+  "name": "Rapunzel: Sanctuary",
+  "burst_stage": 2,
+  "ult_cd": 20,
+  "cdr": false
+ }
+]

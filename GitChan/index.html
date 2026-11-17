@@ -1,0 +1,117 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Nikke Team Builder</title>
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
+<header class="topbar">
+  <div class="brand"><span class="brand-mark">◈</span><span class="brand-name">Nikke <span>Team Builder</span></span></div>
+  <nav class="tabs">
+    <button class="tab active" data-tab="builder">Team Builder</button>
+    <button class="tab" data-tab="monsters">Monster List</button>
+  </nav>
+  <div class="top-controls">
+    <button id="webhook-btn" class="btn ghost">Discord Webhook</button>
+  </div>
+</header>
+
+<!-- ============================ TEAM BUILDER ============================ -->
+<main id="view-builder" class="view">
+  <section class="setup-card">
+    <div class="setup-row">
+      <label>Mode
+        <select id="sel-mode">
+          <option value="union">Union Raid</option>
+          <option value="solo">Solo Raid</option>
+        </select>
+      </label>
+      <label>Season <select id="sel-season"></select></label>
+      <label id="wrap-boss">Boss <select id="sel-boss"></select></label>
+      <label id="wrap-diff">Difficulty
+        <select id="sel-diff">
+          <option value="normal">Normal</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+      <label id="wrap-step">Step <select id="sel-step"></select></label>
+      <div id="boss-info" class="boss-info"></div>
+    </div>
+  </section>
+
+  <section id="teams" class="teams"></section>
+  <div class="team-actions">
+    <button id="btn-clear" class="btn ghost">Clear Teams</button>
+    <button id="btn-share" class="btn primary">Share to Discord</button>
+    <select id="sel-share-team" class="share-sel"></select>
+  </div>
+  <section id="warnings" class="warnings"></section>
+
+  <section class="filters">
+    <input id="f-name" class="search" type="text" placeholder="Search name…">
+    <div class="chipset" id="f-burst">
+      <button class="chip" data-v="1">B1</button>
+      <button class="chip" data-v="2">B2</button>
+      <button class="chip" data-v="3">B3</button>
+      <button class="chip" data-v="5">All</button>
+    </div>
+    <div class="chipset" id="f-elem"></div>
+    <div class="chipset" id="f-weapon"></div>
+    <div class="chipset">
+      <button class="chip" id="f-cdr">CDR</button>
+      <button class="chip" id="f-treasure">Treasure</button>
+    </div>
+    <span class="muted" id="grid-count"></span>
+  </section>
+
+  <section id="grid" class="grid"></section>
+</main>
+
+<!-- ============================ MONSTER LIST ============================ -->
+<main id="view-monsters" class="view hidden">
+  <section class="setup-card">
+    <div class="setup-row">
+      <label>Raid Type
+        <select id="m-sel-mode">
+          <option value="union">Union Raid</option>
+          <option value="solo">Solo Raid</option>
+        </select>
+      </label>
+      <label>Season <select id="m-sel-season"></select></label>
+      <label>Select <select id="m-sel-boss"></select></label>
+      <label id="m-wrap-diff">Difficulty
+        <select id="m-sel-diff">
+          <option value="normal">Normal</option>
+          <option value="hard">Hard</option>
+        </select>
+      </label>
+      <label id="m-wrap-step">Step <select id="m-sel-step"></select></label>
+    </div>
+  </section>
+  <section id="monster-detail" class="monster-detail"></section>
+</main>
+
+<!-- tooltip -->
+<div id="tooltip" class="tooltip hidden"></div>
+
+<!-- webhook modal -->
+<div id="wh-modal" class="modal hidden">
+  <div class="modal-box">
+    <h3>Discord Webhook</h3>
+    <p class="muted">Paste a Discord webhook URL. It is stored only in this browser (localStorage) and used to post rendered team images.</p>
+    <input id="wh-url" type="text" placeholder="https://discord.com/api/webhooks/…">
+    <div class="modal-actions">
+      <button id="wh-save" class="btn primary">Save</button>
+      <button id="wh-close" class="btn ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<div id="toast" class="toast hidden"></div>
+
+<script src="data.js"></script>
+<script src="app.js"></script>
+</body>
+</html>
