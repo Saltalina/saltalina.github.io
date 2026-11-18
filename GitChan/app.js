@@ -16,14 +16,32 @@ const RAPI_RH_NC = 5129;        // Rapi: Red Hood — burst 3, acts as burst 1 i
 const state = {
   mode: "union", season: 0, boss: 0, diff: "normal", step: 1,
   teams: [],           // array of arrays of {nc, phase}
+  teamCfg: [],         // per-team {boss, diff, step} (union: each team may fight a different boss)
   used: new Set(),
   filters: { name: "", burst: new Set(), elem: new Set(), weapon: new Set(), cd: new Set(),
              rare: new Set(), cdr: false, selfcdr: false, treasure: false },
 };
 
+/* ---------- badge visibility config (localStorage) ---------- */
+const BADGE_CFG_KEY = "badgeCfg";
+let badgeCfg = { app: {}, wh: {} };        // label -> false hides it
+try { badgeCfg = Object.assign(badgeCfg, JSON.parse(localStorage.getItem(BADGE_CFG_KEY) || "{}")); } catch {}
+function saveBadgeCfg() { localStorage.setItem(BADGE_CFG_KEY, JSON.stringify(badgeCfg)); }
+function tagVisible(label, ctx) { return badgeCfg[ctx][label] !== false; }
+function visibleTags(ph, ctx) { return ph.tags.filter(t => tagVisible(t, ctx)); }
+function allBadgeLabels() {
+  const s = new Set();
+  for (const nk of D.nikkes) {
+    (nk.tags || []).forEach(t => s.add(t));
+    if (nk.treasure) for (const p of Object.values(nk.treasure.phases)) (p.tags || []).forEach(t => s.add(t));
+  }
+  return [...s].sort();
+}
+
 function teamCount() { return state.mode === "union" ? 3 : 5; }
 function resetTeams() {
   state.teams = Array.from({ length: teamCount() }, () => []);
+  state.teamCfg = Array.from({ length: teamCount() }, () => ({ boss: 0, diff: "normal", step: 1 }));
   state.used = new Set();
 }
 
@@ -37,11 +55,41 @@ function burstSteps(nk, team) {
   return [nk.burst];
 }
 function unitPhase(nk, phase) {
-  // returns {cd, cdEff, cdr, cdrCond, selfCdr, selfCdrCond, selfCdrPve, slotCdr, tags}
+  // returns {cd, cdEff, cdr, cdrCond, selfCdr, selfCdrCond, selfCdrPve, selfGate, partyGate, slotCdr, tags}
   const src = (nk.treasure && phase) ? nk.treasure.phases[String(phase)] : nk;
   return { cd: nk.cd, cdEff: src.cdEff, cdr: src.cdr, cdrCond: src.cdrCond,
            selfCdr: src.selfCdr, selfCdrCond: src.selfCdrCond, selfCdrPve: src.selfCdrPve,
+           selfGate: src.selfGate, partyGate: src.partyGate,
            slotCdr: src.slotCdr, tags: src.tags };
+}
+
+/* ---------- conditional CDR: evaluate the gate against the actual team ---------- */
+function gateSatisfied(gate, nk, team, m) {
+  if (!gate) return true;
+  const others = team.filter(x => x.nc !== m.nc);
+  if (gate.kind === "squad")
+    return others.some(x => byNc[x.nc].squad && byNc[x.nc].squad === nk.squad);
+  if (gate.kind === "noBurst")
+    return !others.some(x => burstSteps(byNc[x.nc], team).includes(gate.step));
+  if (gate.kind === "hasBurst")
+    return others.some(x => burstSteps(byNc[x.nc], team).includes(gate.step));
+  return true;
+}
+function gateText(gate, nk) {
+  if (!gate) return "";
+  if (gate.kind === "squad") {
+    const mates = D.nikkes.filter(x => x.squad && x.squad === nk.squad && x.nc !== nk.nc).map(x => x.name);
+    return mates.length ? mates.join(" / ") : "a same-squad ally";
+  }
+  if (gate.kind === "noBurst") return `no other Burst ${gate.step} on the team`;
+  if (gate.kind === "hasBurst") return `a Burst ${gate.step} unit on the team`;
+  return "";
+}
+/* ult cooldown this unit ACTUALLY has in this team */
+function effCdInTeam(nk, ph, team, m) {
+  if (ph.selfCdrCond && ph.selfGate)
+    return gateSatisfied(ph.selfGate, nk, team, m) ? ph.cdEff : ph.cd;
+  return ph.cdEff;
 }
 
 /* ---------- tabs ---------- */
@@ -63,18 +111,17 @@ function fillSeasons() {
 function currentSeason() { return seasonList()[state.season]; }
 function bossSteps(b, diff) { return (b && b[diff] && b[diff].length) ? b[diff] : (b ? b[diff === "hard" ? "normal" : "hard"] || [] : []); }
 function fillBosses() {
-  const s = currentSeason();
-  const wrapBoss = $("#wrap-boss"), wrapDiff = $("#wrap-diff"), wrapStep = $("#wrap-step");
-  if (state.mode === "union") {
-    wrapBoss.classList.remove("hidden"); wrapDiff.classList.remove("hidden"); wrapStep.classList.remove("hidden");
-    $("#sel-boss").innerHTML = s.bosses.map((b, i) => `<option value="${i}">Boss ${b.order} — ${b.name}</option>`).join("");
-    state.boss = Math.min(state.boss, s.bosses.length - 1);
-    $("#sel-boss").value = state.boss;
-    fillSteps();
-  } else {
-    wrapBoss.classList.add("hidden"); wrapDiff.classList.add("hidden"); wrapStep.classList.add("hidden");
+  // union: each team picks its own boss/difficulty/step (3 attempts vs any bosses)
+  const perTeam = state.mode === "union";
+  $("#wrap-boss").classList.add("hidden");
+  $("#wrap-diff").classList.add("hidden");
+  $("#wrap-step").classList.add("hidden");
+  $("#boss-info").classList.toggle("hidden", perTeam);
+  if (!perTeam) {
+    const ch = currentSeason().challenge;
+    $("#boss-info").innerHTML = ch ? bossHtml(ch.name + " (Challenge)", ch.lv, ch.monsters) : "";
   }
-  renderBossInfo(); renderTeams();
+  renderTeams();
 }
 function fillSteps() {
   const b = currentBoss();
@@ -106,21 +153,38 @@ function bossHtml(name, lv, keys) {
 }
 
 $("#sel-mode").onchange = e => { state.mode = e.target.value; resetTeams(); fillSeasons(); renderGrid(); renderShareSel(); };
-$("#sel-season").onchange = e => { state.season = +e.target.value; state.boss = 0; fillBosses(); };
-$("#sel-boss").onchange = e => { state.boss = +e.target.value; fillSteps(); renderBossInfo(); };
-$("#sel-diff").onchange = e => { state.diff = e.target.value; fillSteps(); renderBossInfo(); };
-$("#sel-step").onchange = e => { state.step = +e.target.value; renderBossInfo(); };
+$("#sel-season").onchange = e => { state.season = +e.target.value; state.boss = 0;
+  state.teamCfg.forEach(c => { c.boss = 0; c.step = 1; }); fillBosses(); };
 
 /* ---------- teams ---------- */
 function renderTeams() {
-  while (state.teams.length < teamCount()) state.teams.push([]);
-  state.teams.length = teamCount();
+  while (state.teams.length < teamCount()) { state.teams.push([]); state.teamCfg.push({ boss: 0, diff: "normal", step: 1 }); }
+  state.teams.length = teamCount(); state.teamCfg.length = teamCount();
   const wrap = $("#teams");
   wrap.innerHTML = "";
   state.teams.forEach((team, ti) => {
+    const cfg = state.teamCfg[ti];
     const div = document.createElement("div");
     div.className = "team"; div.dataset.team = ti;
-    div.innerHTML = `<h3>Team ${ti + 1}<span class="muted">${team.length}/${5}</span></h3><div class="team-slots"></div>`;
+    let head = `<h3>Team ${ti + 1}<span class="muted">${team.length}/5</span></h3>`;
+    if (state.mode === "union") {
+      const s = currentSeason();
+      cfg.boss = Math.min(cfg.boss, s.bosses.length - 1);
+      const steps = bossSteps(s.bosses[cfg.boss], cfg.diff);
+      cfg.step = Math.min(Math.max(cfg.step, 1), steps.length) || 1;
+      const st = steps.find(x => x.step === cfg.step) || steps[0];
+      head = `<div class="team-head"><span class="team-title">Team ${ti + 1} <span class="muted">${team.length}/5</span></span>
+        <select class="t-sel t-sel-boss">${s.bosses.map((b, i) => `<option value="${i}"${i === cfg.boss ? " selected" : ""}>Boss ${b.order} — ${b.name}</option>`).join("")}</select>
+        <select class="t-sel t-sel-diff"><option value="normal"${cfg.diff === "normal" ? " selected" : ""}>Normal</option><option value="hard"${cfg.diff === "hard" ? " selected" : ""}>Hard</option></select>
+        <select class="t-sel t-sel-step">${steps.map(x => `<option value="${x.step}"${x.step === cfg.step ? " selected" : ""}>Step ${x.step} (Lv ${x.lv})</option>`).join("")}</select>
+        <span class="muted team-boss-info">${st ? bossHtml(s.bosses[cfg.boss].name, st.lv, st.monsters) : ""}</span></div>`;
+    }
+    div.innerHTML = head + `<div class="team-slots"></div>`;
+    if (state.mode === "union") {
+      div.querySelector(".t-sel-boss").onchange = e => { cfg.boss = +e.target.value; cfg.step = 1; renderTeams(); };
+      div.querySelector(".t-sel-diff").onchange = e => { cfg.diff = e.target.value; cfg.step = 1; renderTeams(); };
+      div.querySelector(".t-sel-step").onchange = e => { cfg.step = +e.target.value; renderTeams(); };
+    }
     const slots = div.querySelector(".team-slots");
     if (!team.length) slots.innerHTML = `<div class="team-empty">drag Nikkes here</div>`;
     team.forEach((m, si) => {
@@ -128,10 +192,13 @@ function renderTeams() {
       const ph = unitPhase(nk, m.phase);
       const row = document.createElement("div");
       row.className = "team-slot"; row.draggable = true;
+      const team = state.teams[ti];
+      const cd = effCdInTeam(nk, ph, team, m);
+      const cdNote = ph.selfCdrCond ? (gateSatisfied(ph.selfGate, nk, team, m) ? " ✓" : " ✗") : "";
       row.innerHTML = `${nk.icon ? `<img src="${nk.icon}">` : ""}
         <div class="ts-name">${nk.name}${m.phase ? ` <span style="color:var(--warn)">P${m.phase}</span>` : ""}</div>
-        <div class="ts-sub">B${nk.burst === 5 ? "★" : nk.burst} | ${nk.weapon} | ${ph.cdEff}s</div>
-        <div class="ts-tags">${ph.tags.slice(0, 3).map(t => `<span class="tag${t.startsWith("CDR") ? " cdr" : t.startsWith("Self CDR") ? " selfcdr" : ""}">${t}</span>`).join("")}</div>
+        <div class="ts-sub">B${nk.burst === 5 ? "★" : nk.burst} | ${nk.weapon} | ${cd}s${cdNote}</div>
+        <div class="ts-tags">${visibleTags(ph, "app").slice(0, 3).map(t => `<span class="tag${t.startsWith("CDR") ? " cdr" : t.startsWith("Self CDR") ? " selfcdr" : ""}">${t}</span>`).join("")}</div>
         <span class="ts-x" title="remove">✕</span>`;
       row.addEventListener("dragstart", e => {
         e.dataTransfer.setData("text/x-move", JSON.stringify({ from: ti, idx: si }));
@@ -161,7 +228,7 @@ function renderTeams() {
         renderAll();
       });
       row.querySelector(".ts-x").onclick = () => removeMember(ti, si);
-      attachTooltip(row, nk, m.phase);
+      attachTooltip(row, nk, m.phase, { team, m });
       slots.appendChild(row);
     });
     div.addEventListener("dragover", e => { e.preventDefault(); div.classList.add("drag-over"); });
@@ -205,23 +272,36 @@ function removeMember(ti, si) {
 function teamWarnings(team) {
   const out = [];
   if (!team.length) return out;
-  const units = team.map(m => ({ nk: byNc[m.nc], ph: unitPhase(byNc[m.nc], m.phase) }));
+  const units = team.map(m => ({ nk: byNc[m.nc], m, ph: unitPhase(byNc[m.nc], m.phase) }));
+  for (const u of units) u.cd = effCdInTeam(u.nk, u.ph, team, u.m);
   for (let step = 1; step <= 3; step++) {
     const fillers = units.filter(u => burstSteps(u.nk, team).includes(step));
     if (!fillers.length) { out.push({ lvl: "bad", t: `No Burst ${step} unit` }); continue; }
-    if (fillers.length === 1 && fillers[0].ph.cdEff >= 40)
-      out.push({ lvl: "warn", t: `Only Burst ${step} unit is ${fillers[0].ph.cdEff}s (${fillers[0].nk.name})` });
-    const b2 = step === 2 ? fillers : null;
-    if (b2 && b2.length && b2.every(u => u.ph.cdEff >= 40))
+    if (fillers.length === 1 && fillers[0].cd >= 40)
+      out.push({ lvl: "warn", t: `Only Burst ${step} unit is ${fillers[0].cd}s (${fillers[0].nk.name})` });
+    if (step === 2 && fillers.length && fillers.every(u => u.cd >= 40))
       out.push({ lvl: "warn", t: `All Burst 2 units are 40s+ — slow rotation` });
   }
-  if (!units.some(u => u.ph.cdr || u.ph.selfCdr)) out.push({ lvl: "warn", t: "No CDR unit (burst cooldown reduction)" });
-  else if (!units.some(u => (u.ph.cdr && !u.ph.cdrCond) || (u.ph.selfCdr && !u.ph.selfCdrCond))) {
-    const names = units.filter(u => u.ph.cdr || u.ph.selfCdr).map(u => u.nk.name).join(", ");
-    out.push({ lvl: "warn", t: `CDR is conditional (${names}) — check squad requirements` });
+  // conditional CDR: evaluate each unit's gate against THIS team
+  for (const u of units) {
+    if (u.ph.selfCdrCond && u.ph.selfGate) {
+      const req = gateText(u.ph.selfGate, u.nk);
+      if (gateSatisfied(u.ph.selfGate, u.nk, team, u.m))
+        out.push({ lvl: "good", t: `${u.nk.name}: Self CDR active (${u.ph.cd}s → ${u.ph.cdEff}s)` });
+      else
+        out.push({ lvl: "warn", t: `${u.nk.name} Self CDR NOT active — needs ${req}; she is a ${u.ph.cd}s burst without it` });
+    }
+    if (u.ph.cdrCond && u.ph.partyGate) {
+      const req = gateText(u.ph.partyGate, u.nk);
+      if (gateSatisfied(u.ph.partyGate, u.nk, team, u.m))
+        out.push({ lvl: "good", t: `${u.nk.name}: party CDR active` });
+      else
+        out.push({ lvl: "warn", t: `${u.nk.name} party CDR NOT active — requires ${req}` });
+    }
   }
+  if (!units.some(u => u.ph.cdr || u.ph.selfCdr)) out.push({ lvl: "warn", t: "No CDR unit (burst cooldown reduction)" });
   const b3 = units.filter(u => burstSteps(u.nk, team).includes(3));
-  if (b3.length === 1 && b3[0].ph.cdEff === 60)
+  if (b3.length === 1 && b3[0].cd === 60)
     out.push({ lvl: "warn", t: `Single Burst 3 unit on 60s cooldown (${b3[0].nk.name})` });
   if (!out.length) out.push({ lvl: "good", t: "Team OK" });
   return out;
@@ -307,12 +387,12 @@ $("#grid").addEventListener("drop", e => {
 
 /* ---------- tooltip ---------- */
 const tip = $("#tooltip");
-function attachTooltip(el, nk, phase) {
-  el.addEventListener("mouseenter", e => { showTip(nk, phase, e); });
+function attachTooltip(el, nk, phase, teamCtx) {
+  el.addEventListener("mouseenter", e => { showTip(nk, phase, e, teamCtx); });
   el.addEventListener("mousemove", e => posTip(e));
   el.addEventListener("mouseleave", () => tip.classList.add("hidden"));
 }
-function showTip(nk, phase, e) {
+function showTip(nk, phase, e, teamCtx) {
   let skills, replaced = [];
   if (nk.treasure && phase) {
     const p = nk.treasure.phases[String(phase)];
@@ -320,8 +400,14 @@ function showTip(nk, phase, e) {
   } else skills = nk.skills.base;
   const ph = unitPhase(nk, phase);
   const names = ["Skill 1", "Skill 2", "Ultimate"];
+  let cdLine;
+  if (ph.selfCdrCond && ph.selfGate && teamCtx) {
+    const ok = gateSatisfied(ph.selfGate, nk, teamCtx.team, teamCtx.m);
+    cdLine = ok ? `Ult <b style="color:var(--good)">${ph.cdEff}s</b> (Self CDR active, ${ph.cd}s base)`
+                : `Ult <b style="color:var(--bad)">${ph.cd}s</b> — Self CDR needs ${gateText(ph.selfGate, nk)}`;
+  } else cdLine = `Ult ${ph.cdEff !== ph.cd ? `${ph.cdEff}s (${ph.cd}s base)` : ph.cd + "s"}`;
   tip.innerHTML = `<h4>${nk.name}${nk.treasure ? ` — ${nk.treasure.name}${phase ? " P" + phase : " (no treasure)"}` : ""}</h4>
-    <div class="t-sub">${nk.rare} ${nk.cls} · ${nk.element} · ${nk.weapon} · Burst ${nk.burst === 5 ? "AllStep" : nk.burst} · Ult ${ph.cdEff !== ph.cd ? `${ph.cdEff}s (${ph.cd}s base)` : ph.cd + "s"}${ph.selfCdr ? ` · Self CDR${ph.selfCdrCond ? "* (needs the right squadmates)" : ph.selfCdrPve ? " (PvE: procs vs Raptures / monster content)" : ""}` : ""}${ph.cdr ? ` · CDR${ph.cdrCond ? "* (conditional: squad burst-step composition)" : ""}` : ""}</div>
+    <div class="t-sub">${nk.rare} ${nk.cls} · ${nk.element} · ${nk.weapon} · Burst ${nk.burst === 5 ? "AllStep" : nk.burst} · ${cdLine}${ph.selfCdr && !ph.selfCdrCond ? ` · Self CDR${ph.selfCdrPve ? " (PvE: procs vs Raptures / monster content)" : ""}` : ""}${ph.cdr ? ` · CDR${ph.cdrCond ? `* (${gateSatisfied(ph.partyGate, nk, teamCtx?.team || [], teamCtx?.m || {nc:-1}) ? "active" : "needs " + gateText(ph.partyGate, nk)})` : ""}` : ""}</div>
     ${skills.map((s, i) => s ? `<div class="t-skill"><b>${names[i]}: ${s.n}${replaced.includes(names[i]) ? '<span class="t-new">REPLACED BY TREASURE</span>' : ""}${ph.slotCdr && ph.slotCdr[i] === 1 ? '<span class="t-cdr">CDR</span>' : ""}${ph.slotCdr && ph.slotCdr[i] === 2 ? '<span class="t-cdr">SELF CDR</span>' : ""}</b><p>${s.d || "—"}</p></div>` : "").join("")}`;
   tip.classList.remove("hidden");
   posTip(e);
@@ -355,6 +441,28 @@ $("#f-cdr").onclick = e => { state.filters.cdr = !state.filters.cdr; e.target.cl
 $("#f-selfcdr").onclick = e => { state.filters.selfcdr = !state.filters.selfcdr; e.target.classList.toggle("on", state.filters.selfcdr); renderGrid(); };
 $("#f-treasure").onclick = e => { state.filters.treasure = !state.filters.treasure; e.target.classList.toggle("on", state.filters.treasure); renderGrid(); };
 $("#btn-clear").onclick = () => { resetTeams(); renderAll(); };
+
+/* ---------- badge visibility UI ---------- */
+$("#badges-btn").onclick = () => { renderBadgeCfg(); $("#badge-modal").classList.remove("hidden"); };
+$("#badge-close").onclick = () => $("#badge-modal").classList.add("hidden");
+$("#badge-all").onclick = () => { badgeCfg = { app: {}, wh: {} }; saveBadgeCfg(); renderBadgeCfg(); renderTeams(); renderGrid(); };
+function renderBadgeCfg() {
+  const list = $("#badge-cfg-list");
+  list.innerHTML = "";
+  for (const label of allBadgeLabels()) {
+    const row = document.createElement("div");
+    row.className = "badge-cfg-row";
+    row.innerHTML = `<span class="tag${label.startsWith("CDR") ? " cdr" : label.startsWith("Self CDR") ? " selfcdr" : ""}">${label}</span>
+      <span><input type="checkbox" data-ctx="app"${tagVisible(label, "app") ? " checked" : ""}></span>
+      <span><input type="checkbox" data-ctx="wh"${tagVisible(label, "wh") ? " checked" : ""}></span>`;
+    row.querySelectorAll("input").forEach(cb => cb.onchange = () => {
+      const ctx = cb.dataset.ctx;
+      if (cb.checked) delete badgeCfg[ctx][label]; else badgeCfg[ctx][label] = false;
+      saveBadgeCfg(); renderTeams(); renderGrid();
+    });
+    list.appendChild(row);
+  }
+}
 
 /* ---------- Discord webhook ---------- */
 $("#webhook-btn").onclick = () => { $("#wh-url").value = localStorage.getItem("whUrl") || ""; $("#wh-modal").classList.remove("hidden"); };
@@ -395,13 +503,11 @@ async function renderTeamsCanvas(teamIdxs) {
   ctx.fillStyle = grad; ctx.fillRect(0, 0, W, H);
 
   const s = currentSeason();
-  const boss = state.mode === "union"
-    ? `${currentBoss().name} — Step ${state.step}`
-    : `${currentSeason().challenge?.name || ""} (Challenge)`;
   ctx.fillStyle = "#5b8cff"; ctx.font = `bold 26px ${FONT}`;
   ctx.fillText("◈ Nikke Team Builder", 24, 40);
   ctx.fillStyle = "#8a94a8"; ctx.font = `600 15px ${FONT}`;
-  ctx.fillText(`${state.mode === "union" ? "Union Raid" : "Solo Raid"}  ·  Season ${s.season}  ·  ${boss}`, 24, 66);
+  ctx.fillText(`${state.mode === "union" ? "Union Raid" : "Solo Raid"}  ·  Season ${s.season}` +
+    (state.mode === "solo" ? `  ·  ${s.challenge?.name || ""} (Challenge)` : ""), 24, 66);
 
   let y = headH;
   for (const ti of teamIdxs) {
@@ -409,9 +515,18 @@ async function renderTeamsCanvas(teamIdxs) {
     ctx.fillStyle = "#151a26"; ctx.strokeStyle = "#232b3d"; ctx.lineWidth = 1;
     ctx.beginPath(); ctx.roundRect(20, y, W - 40, teamH, 14); ctx.fill(); ctx.stroke();
     ctx.fillStyle = "#8a94a8"; ctx.font = `800 13px ${FONT}`;
-    ctx.fillText(`TEAM ${ti + 1}`, 20 + pad, y + 26);
+    const cfg = state.teamCfg[ti] || { boss: 0, diff: "normal", step: 1 };
+    let teamLabel = `TEAM ${ti + 1}`;
+    if (state.mode === "union") {
+      const b = s.bosses[cfg.boss];
+      const steps = bossSteps(b, cfg.diff);
+      const st = steps.find(x => x.step === cfg.step) || steps[0];
+      teamLabel = `TEAM ${ti + 1} — ${b.name} · ${cfg.diff === "hard" ? "Hard" : "Normal"} · Step ${st ? st.step : cfg.step} (Lv ${st ? st.lv : "?"})`;
+    }
+    ctx.fillText(teamLabel, 20 + pad, y + 26);
     const warns = teamWarnings(state.teams[ti]).filter(w => w.lvl !== "good");
-    let wx = 110;
+    ctx.font = `700 11px ${FONT}`;
+    let wx = 20 + pad + ctx.measureText(teamLabel).width + 24;
     for (const w of warns.slice(0, 2)) {
       ctx.font = `700 11px ${FONT}`;
       const tw = ctx.measureText(w.t).width + 14;
@@ -426,6 +541,7 @@ async function renderTeamsCanvas(teamIdxs) {
     for (const m of state.teams[ti]) {
       const nk = byNc[m.nc];
       const ph = unitPhase(nk, m.phase);
+      const cdNow = effCdInTeam(nk, ph, state.teams[ti], m);
       ctx.fillStyle = "#1a2030"; ctx.strokeStyle = "#232b3d";
       ctx.beginPath(); ctx.roundRect(x, cy, cardW, cardH, 10); ctx.fill(); ctx.stroke();
       // icon
@@ -447,7 +563,7 @@ async function renderTeamsCanvas(teamIdxs) {
       ctx.fillText(nm, x + cardW / 2, cy + 122);
       // sub line with element color
       ctx.font = `600 11px ${FONT}`;
-      const sub = `${nk.weapon} · ${ph.cdEff !== ph.cd ? ph.cdEff + "s PvE" : ph.cd + "s"} · `;
+      const sub = `${nk.weapon} · ${cdNow !== ph.cd ? cdNow + "s" : ph.cd + "s"} · `;
       const subW = ctx.measureText(sub).width, elW = ctx.measureText(nk.element).width;
       const sx = x + (cardW - (subW + elW)) / 2;
       ctx.textAlign = "left";
@@ -456,8 +572,8 @@ async function renderTeamsCanvas(teamIdxs) {
       // tags row
       let tx = x + 8;
       const tags = [];
-      if (nk.treasure) tags.push(["TREASURE", "#e8b84b", "#e8b84b22", "#e8b84b33"]);
-      for (const t of ph.tags.slice(0, 3)) {
+      if (nk.treasure && tagVisible("TREASURE", "wh")) tags.push(["TREASURE", "#e8b84b", "#e8b84b22", "#e8b84b33"]);
+      for (const t of visibleTags(ph, "wh").slice(0, 3)) {
         const c = t.startsWith("CDR") ? ["#3ecf8e", "#3ecf8e22", "#3ecf8e33"]
                 : t.startsWith("Self CDR") ? ["#4fc3f7", "#4fc3f722", "#4fc3f733"]
                 : ["#5b8cff", "#5b8cff22", "#5b8cff33"];
@@ -489,11 +605,10 @@ $("#btn-share").onclick = async () => {
     const cv = await renderTeamsCanvas(idxs);
     const blob = await new Promise(res => cv.toBlob(res, "image/png"));
     const s = currentSeason();
-    const boss = state.mode === "union" ? currentBoss().name + " — Step " + state.step : (currentSeason().challenge?.name || "") + " (Challenge)";
     const fd = new FormData();
     fd.append("file", blob, "teams.png");
     fd.append("payload_json", JSON.stringify({
-      content: `**${state.mode === "union" ? "Union Raid" : "Solo Raid"}** — Season ${s.season} — ${boss}`,
+      content: `**${state.mode === "union" ? "Union Raid" : "Solo Raid"}** — Season ${s.season}`,
     }));
     const r = await fetch(url, { method: "POST", body: fd });
     toast(r.ok ? "Shared to Discord ✓" : `Discord error ${r.status}`);

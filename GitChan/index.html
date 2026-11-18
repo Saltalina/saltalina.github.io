@@ -14,6 +14,7 @@
     <button class="tab" data-tab="monsters">Monster List</button>
   </nav>
   <div class="top-controls">
+    <button id="badges-btn" class="btn ghost">Badges…</button>
     <button id="webhook-btn" class="btn ghost">Discord Webhook</button>
   </div>
 </header>
@@ -41,6 +42,8 @@
     </div>
   </section>
 
+  <div class="builder-split">
+  <aside class="pane pane-teams">
   <section id="teams" class="teams"></section>
   <div class="team-actions">
     <button id="btn-clear" class="btn ghost">Clear Teams</button>
@@ -48,7 +51,9 @@
     <select id="sel-share-team" class="share-sel"></select>
   </div>
   <section id="warnings" class="warnings"></section>
+  </aside>
 
+  <section class="pane pane-grid">
   <section class="filters">
     <input id="f-name" class="search" type="text" placeholder="Search name…">
     <div class="chipset" id="f-burst">
@@ -78,6 +83,8 @@
   </section>
 
   <section id="grid" class="grid"></section>
+  </section>
+  </div>
 </main>
 
 <!-- ============================ MONSTER LIST ============================ -->
@@ -116,6 +123,20 @@
     <div class="modal-actions">
       <button id="wh-save" class="btn primary">Save</button>
       <button id="wh-close" class="btn ghost">Close</button>
+    </div>
+  </div>
+</div>
+
+<!-- badge visibility modal -->
+<div id="badge-modal" class="modal hidden">
+  <div class="modal-box wide">
+    <h3>Badge Visibility</h3>
+    <p class="muted">Tick which badges show on cards/teams and which appear in the Discord webhook render.</p>
+    <div class="badge-cfg-head"><span></span><span>In App</span><span>Webhook</span></div>
+    <div id="badge-cfg-list" class="badge-cfg-list"></div>
+    <div class="modal-actions">
+      <button id="badge-all" class="btn ghost">Show All</button>
+      <button id="badge-close" class="btn primary">Done</button>
     </div>
   </div>
 </div>
