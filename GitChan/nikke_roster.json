@@ -1646,5 +1646,13 @@
   "ult_cd": 20,
   "ult_cd_pve": 20,
   "cdr": false
+ },
+ {
+  "name_code": 5188,
+  "name": "Sky",
+  "burst_stage": 1,
+  "ult_cd": 40,
+  "ult_cd_pve": 40,
+  "cdr": false
  }
 ]
