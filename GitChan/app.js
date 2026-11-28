@@ -28,6 +28,10 @@ let badgeCfg = { app: {}, wh: {} };        // label -> false hides it
 try { badgeCfg = Object.assign(badgeCfg, JSON.parse(localStorage.getItem(BADGE_CFG_KEY) || "{}")); } catch {}
 function saveBadgeCfg() { localStorage.setItem(BADGE_CFG_KEY, JSON.stringify(badgeCfg)); }
 function tagVisible(label, ctx) { return badgeCfg[ctx][label] !== false; }
+function tagCls(t) {
+  const c = (D.tagCls || {})[t] || (t.startsWith("CDR") ? "cdr" : t.startsWith("Self CDR") ? "self" : "party");
+  return " tag-" + c;
+}
 function visibleTags(ph, ctx) { return ph.tags.filter(t => tagVisible(t, ctx)); }
 function allBadgeLabels() {
   const s = new Set();
@@ -59,7 +63,8 @@ function unitPhase(nk, phase) {
   const src = (nk.treasure && phase) ? nk.treasure.phases[String(phase)] : nk;
   return { cd: nk.cd, cdEff: src.cdEff, cdr: src.cdr, cdrCond: src.cdrCond,
            selfCdr: src.selfCdr, selfCdrCond: src.selfCdrCond, selfCdrPve: src.selfCdrPve,
-           selfGate: src.selfGate, partyGate: src.partyGate,
+           selfGate: src.selfGate, partyGate: src.partyGate, selfStun: src.selfStun,
+           overlapSupport: src.overlapSupport,
            slotCdr: src.slotCdr, tags: src.tags };
 }
 
@@ -159,10 +164,11 @@ $("#sel-season").onchange = e => { state.season = +e.target.value; state.boss = 
 /* ---------- teams ---------- */
 function renderTeams() {
   while (state.teams.length < teamCount()) { state.teams.push([]); state.teamCfg.push({ boss: 0, diff: "normal", step: 1 }); }
-  state.teams.length = teamCount(); state.teamCfg.length = teamCount();
+  state.teamCfg.length = teamCount(); state.teams.length = teamCount();   // keep in lockstep
   const wrap = $("#teams");
   wrap.innerHTML = "";
   state.teams.forEach((team, ti) => {
+    if (!state.teamCfg[ti]) state.teamCfg[ti] = { boss: 0, diff: "normal", step: 1 };
     const cfg = state.teamCfg[ti];
     const div = document.createElement("div");
     div.className = "team"; div.dataset.team = ti;
@@ -198,7 +204,7 @@ function renderTeams() {
       row.innerHTML = `${nk.icon ? `<img src="${nk.icon}">` : ""}
         <div class="ts-name">${nk.name}${m.phase ? ` <span style="color:var(--warn)">P${m.phase}</span>` : ""}</div>
         <div class="ts-sub">B${nk.burst === 5 ? "★" : nk.burst} | ${nk.weapon} | ${cd}s${cdNote}</div>
-        <div class="ts-tags">${visibleTags(ph, "app").slice(0, 3).map(t => `<span class="tag${t.startsWith("CDR") ? " cdr" : t.startsWith("Self CDR") ? " selfcdr" : ""}">${t}</span>`).join("")}</div>
+        <div class="ts-tags">${visibleTags(ph, "app").map(t => `<span class="tag${tagCls(t)}">${t}</span>`).join("")}</div>
         <span class="ts-x" title="remove">✕</span>`;
       row.addEventListener("dragstart", e => {
         e.dataTransfer.setData("text/x-move", JSON.stringify({ from: ti, idx: si }));
@@ -279,8 +285,20 @@ function teamWarnings(team) {
     if (!fillers.length) { out.push({ lvl: "bad", t: `No Burst ${step} unit` }); continue; }
     if (fillers.length === 1 && fillers[0].cd >= 40)
       out.push({ lvl: "warn", t: `Only Burst ${step} unit is ${fillers[0].cd}s (${fillers[0].nk.name})` });
-    if (step === 2 && fillers.length && fillers.every(u => u.cd >= 40))
-      out.push({ lvl: "warn", t: `All Burst 2 units are 40s+ — slow rotation` });
+    // NOTE: multiple 40s Burst 2 units are FINE — they alternate bursts.
+  }
+  // post-burst stun coverage (Mast: Romantic Maid stuns herself after full burst
+  // unless an ally negates it; a fast ally covers the stun window)
+  for (const u of units) {
+    if (!u.ph.selfStun) continue;
+    const negator = units.find(x => x !== u && x.ph.overlapSupport);
+    const fast = units.find(x => x !== u && x.cd <= 20);
+    if (negator)
+      out.push({ lvl: "good", t: `${u.nk.name} stun negated by ${negator.nk.name}` });
+    else if (fast)
+      out.push({ lvl: "good", t: `${u.nk.name} stun window covered by ${fast.nk.name} (${fast.cd}s)` });
+    else
+      out.push({ lvl: "warn", t: `${u.nk.name} is stunned after full burst — no 20s burst ally and no stun negation; 40s allies leave burst gaps` });
   }
   // conditional CDR: evaluate each unit's gate against THIS team
   for (const u of units) {
@@ -364,7 +382,7 @@ function renderGrid() {
         <div class="c-name">${nk.name}</div>
         <div class="c-sub">${nk.weapon} · ${ph.cdEff}s · <span style="color:${nk.color}">${nk.element}</span></div>
         <div class="c-tags">${nk.treasure ? '<span class="tag treasure">TREASURE</span>' : ""}
-          ${ph.tags.slice(0, 3).map(t => `<span class="tag${t.startsWith("CDR") ? " cdr" : t.startsWith("Self CDR") ? " selfcdr" : ""}">${t}</span>`).join("")}</div>`;
+          ${ph.tags.map(t => `<span class="tag${tagCls(t)}">${t}</span>`).join("")}</div>`;
       card.addEventListener("dragstart", e => {
         e.dataTransfer.setData("text/plain", JSON.stringify(v));
         e.dataTransfer.effectAllowed = "copy";
@@ -408,6 +426,7 @@ function showTip(nk, phase, e, teamCtx) {
   } else cdLine = `Ult ${ph.cdEff !== ph.cd ? `${ph.cdEff}s (${ph.cd}s base)` : ph.cd + "s"}`;
   tip.innerHTML = `<h4>${nk.name}${nk.treasure ? ` — ${nk.treasure.name}${phase ? " P" + phase : " (no treasure)"}` : ""}</h4>
     <div class="t-sub">${nk.rare} ${nk.cls} · ${nk.element} · ${nk.weapon} · Burst ${nk.burst === 5 ? "AllStep" : nk.burst} · ${cdLine}${ph.selfCdr && !ph.selfCdrCond ? ` · Self CDR${ph.selfCdrPve ? " (PvE: procs vs Raptures / monster content)" : ""}` : ""}${ph.cdr ? ` · CDR${ph.cdrCond ? `* (${gateSatisfied(ph.partyGate, nk, teamCtx?.team || [], teamCtx?.m || {nc:-1}) ? "active" : "needs " + gateText(ph.partyGate, nk)})` : ""}` : ""}</div>
+    <div class="t-tags">${ph.tags.map(t => `<span class="tag${tagCls(t)}">${t}</span>`).join("")}</div>
     ${skills.map((s, i) => s ? `<div class="t-skill"><b>${names[i]}: ${s.n}${replaced.includes(names[i]) ? '<span class="t-new">REPLACED BY TREASURE</span>' : ""}${ph.slotCdr && ph.slotCdr[i] === 1 ? '<span class="t-cdr">CDR</span>' : ""}${ph.slotCdr && ph.slotCdr[i] === 2 ? '<span class="t-cdr">SELF CDR</span>' : ""}</b><p>${s.d || "—"}</p></div>` : "").join("")}`;
   tip.classList.remove("hidden");
   posTip(e);
@@ -446,13 +465,17 @@ $("#btn-clear").onclick = () => { resetTeams(); renderAll(); };
 $("#badges-btn").onclick = () => { renderBadgeCfg(); $("#badge-modal").classList.remove("hidden"); };
 $("#badge-close").onclick = () => $("#badge-modal").classList.add("hidden");
 $("#badge-all").onclick = () => { badgeCfg = { app: {}, wh: {} }; saveBadgeCfg(); renderBadgeCfg(); renderTeams(); renderGrid(); };
+$("#badge-none-wh").onclick = () => {
+  for (const label of allBadgeLabels()) badgeCfg.wh[label] = false;
+  saveBadgeCfg(); renderBadgeCfg();
+};
 function renderBadgeCfg() {
   const list = $("#badge-cfg-list");
   list.innerHTML = "";
   for (const label of allBadgeLabels()) {
     const row = document.createElement("div");
     row.className = "badge-cfg-row";
-    row.innerHTML = `<span class="tag${label.startsWith("CDR") ? " cdr" : label.startsWith("Self CDR") ? " selfcdr" : ""}">${label}</span>
+    row.innerHTML = `<span class="tag${tagCls(label)}">${label}</span>
       <span><input type="checkbox" data-ctx="app"${tagVisible(label, "app") ? " checked" : ""}></span>
       <span><input type="checkbox" data-ctx="wh"${tagVisible(label, "wh") ? " checked" : ""}></span>`;
     row.querySelectorAll("input").forEach(cb => cb.onchange = () => {
@@ -477,6 +500,12 @@ function renderShareSel() {
 }
 
 /* render selected teams to a canvas image — mirrors the in-app card design */
+const TAG_COLORS = {
+  cdr:   ["#3ecf8e", "#3ecf8e22", "#3ecf8e33"],   // green
+  party: ["#5b8cff", "#5b8cff22", "#5b8cff33"],   // blue
+  self:  ["#9aa4b5", "#9aa4b522", "#9aa4b533"],   // grey
+  enemy: ["#ff5d73", "#ff5d7322", "#ff5d7333"],   // red
+};
 const FONT = "'Segoe UI Variable Display','Segoe UI',system-ui,sans-serif";
 function pill(ctx, text, x, y, fg, bg, border) {
   ctx.font = `800 11px ${FONT}`;
@@ -573,10 +602,8 @@ async function renderTeamsCanvas(teamIdxs) {
       let tx = x + 8;
       const tags = [];
       if (nk.treasure && tagVisible("TREASURE", "wh")) tags.push(["TREASURE", "#e8b84b", "#e8b84b22", "#e8b84b33"]);
-      for (const t of visibleTags(ph, "wh").slice(0, 3)) {
-        const c = t.startsWith("CDR") ? ["#3ecf8e", "#3ecf8e22", "#3ecf8e33"]
-                : t.startsWith("Self CDR") ? ["#4fc3f7", "#4fc3f722", "#4fc3f733"]
-                : ["#5b8cff", "#5b8cff22", "#5b8cff33"];
+      for (const t of visibleTags(ph, "wh")) {
+        const c = TAG_COLORS[(D.tagCls || {})[t] || "party"] || TAG_COLORS.party;
         tags.push([t, ...c]);
       }
       for (const [label, fg, bg, bd] of tags) {
@@ -595,15 +622,19 @@ function loadImg(src) {
   return new Promise(res => { const i = new Image(); i.onload = () => res(i); i.onerror = () => res(null); i.src = src; });
 }
 
-$("#btn-share").onclick = async () => {
-  const url = localStorage.getItem("whUrl");
-  if (!url) { $("#wh-modal").classList.remove("hidden"); return; }
+async function buildShareImage() {
   const sel = +$("#sel-share-team").value;
   const idxs = sel === -1 ? state.teams.map((_, i) => i).filter(i => state.teams[i].length) : [sel];
-  if (!idxs.length || idxs.every(i => !state.teams[i].length)) { toast("No teams to share"); return; }
+  if (!idxs.length || idxs.every(i => !state.teams[i].length)) { toast("No teams to share"); return null; }
+  const cv = await renderTeamsCanvas(idxs);
+  return cv.toBlob ? await new Promise(res => cv.toBlob(res, "image/png")) : cv;
+}
+$("#btn-share").onclick = async () => {
+  const url = localStorage.getItem("whUrl");
   try {
-    const cv = await renderTeamsCanvas(idxs);
-    const blob = await new Promise(res => cv.toBlob(res, "image/png"));
+    const blob = await buildShareImage();
+    if (!blob) return;
+    if (!url) { showPreview(blob); return; }        // no webhook: show image to copy
     const s = currentSeason();
     const fd = new FormData();
     fd.append("file", blob, "teams.png");
@@ -614,6 +645,22 @@ $("#btn-share").onclick = async () => {
     toast(r.ok ? "Shared to Discord ✓" : `Discord error ${r.status}`);
   } catch (err) { toast("Failed: " + err.message); }
 };
+/* preview modal: right-click / copy / download the rendered card */
+async function showPreview(blob) {
+  const url = URL.createObjectURL(blob);
+  $("#preview-img").src = url;
+  $("#preview-download").onclick = () => {
+    const a = document.createElement("a"); a.href = url; a.download = "teams.png"; a.click();
+  };
+  $("#preview-copy").onclick = async () => {
+    try {
+      await navigator.clipboard.write([new ClipboardItem({ "image/png": blob })]);
+      toast("Image copied to clipboard ✓");
+    } catch { toast("Copy failed — right-click the image to copy, or download it"); }
+  };
+  $("#preview-modal").classList.remove("hidden");
+}
+$("#preview-close").onclick = () => $("#preview-modal").classList.add("hidden");
 
 /* ---------- monster list ---------- */
 const mstate = { mode: "union", season: 0, boss: 0, step: 1 };

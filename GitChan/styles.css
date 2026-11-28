@@ -72,9 +72,9 @@ select, .search, #wh-url {
 
 /* ---------- split panes: grid and teams scroll independently ---------- */
 .builder-split { display: flex; gap: 14px; align-items: flex-start; }
-.pane-teams { flex: 0 0 600px; max-width: 600px; position: sticky; top: 64px; max-height: calc(100vh - 76px); overflow-y: auto; padding-right: 4px; }
+.pane-teams { flex: 0 0 700px; max-width: 700px; position: sticky; top: 64px; max-height: calc(100vh - 76px); overflow-y: auto; padding-right: 4px; }
 .pane-grid { flex: 1 1 auto; min-width: 0; }
-@media (max-width: 1200px) {
+@media (max-width: 1320px) {
   .builder-split { flex-direction: column; }
   .pane-teams { position: static; flex-basis: auto; max-width: none; max-height: none; overflow: visible; }
 }
@@ -139,8 +139,12 @@ select, .search, #wh-url {
   font-size: .62rem; font-weight: 800; letter-spacing: .3px; padding: 2px 6px;
   border-radius: 5px; background: #5b8cff22; color: var(--accent); border: 1px solid #5b8cff33;
 }
-.tag.cdr { background: #3ecf8e22; color: var(--good); border-color: #3ecf8e33; }
-.tag.selfcdr { background: #4fc3f722; color: #4fc3f7; border-color: #4fc3f733; }
+/* badge colors: CDR green, party blue, self grey, enemy red */
+.tag.cdr, .tag.tag-cdr { background: #3ecf8e22; color: var(--good); border-color: #3ecf8e33; }
+.tag.tag-party { background: #5b8cff22; color: #5b8cff; border-color: #5b8cff33; }
+.tag.tag-self, .tag.selfcdr { background: #9aa4b522; color: #9aa4b5; border-color: #9aa4b533; }
+.tag.tag-enemy { background: #ff5d7322; color: #ff5d73; border-color: #ff5d7333; }
+.preview-img { max-width: 100%; max-height: 60vh; border-radius: 10px; border: 1px solid var(--border); display: block; margin: 8px auto; }
 .tag.treasure { background: #e8b84b22; color: var(--gold, #e8b84b); border-color: #e8b84b33; }
 .bstep { position: absolute; top: 6px; left: 6px; font-size: .68rem; font-weight: 900;
   background: #0b0e14cc; border: 1px solid var(--border); border-radius: 6px; padding: 2px 6px; }
